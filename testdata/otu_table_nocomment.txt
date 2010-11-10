@@ -1,4 +1,3 @@
-#Full OTU Counts
 #OTU ID	A.1	A.2	B.1	B.2	C.1	Consensus Lineage
 0	0	0	0	0	0	Root;Bacteria
 1	0	0	0	0	0	Root;Bacteria

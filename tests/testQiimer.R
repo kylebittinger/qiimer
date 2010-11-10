@@ -1,13 +1,32 @@
-test.ReadMappingFile <- function() {
-  df <- ReadMappingFile(mapping.fp)
-  checkEquals(names(df), c("SampleID", "BarcodeSequence",
-                           "LinkerPrimerSequence", "Diet", "Description"))
-  checkEquals(df$SampleID, c("A.1", "A.2", "B.1", "B.2", "C.1"))
-}
+context('Import Sample Mapping file')
 
-test.ReadOtuTable <- function() {
-  df <- ReadOtuTable(otu.table.fp)
-  checkEquals(names(df), c("OtuID", "A.1", "A.2", "B.1", "B.2", "C.1",
-                           "ConsensusLineage"))
-  checkEquals(df$OtuID, c("0", "1", "2", "3", "4"))
-}
+sample.mapping <- ReadSampleMapping('../testdata/sample_map.txt')
+
+mapping.names <- c("SampleID", "BarcodeSequence", "LinkerPrimerSequence", "Diet", "Description")
+expect_that(names(sample.mapping), equals(mapping.names))
+
+mapping.samples <- as.factor(c("A.1", "A.2", "B.1", "B.2", "C.1"))
+expect_that(sample.mapping$SampleID, equals(mapping.samples))
+
+
+
+
+context('Import OTU table')
+
+otu.table <- ReadOtuTable('../testdata/otu_table.txt')
+
+otu.ids <- as.factor(rep(seq(0, 4), 5))
+expect_that(otu.table$OtuID, equals(otu.ids))
+
+sample.ids <- as.factor(rep(mapping.samples, each=5))
+expect_that(otu.table$SampleID, equals(sample.ids))
+
+
+
+
+context('Import OTU table with no comment in header')
+
+otu.table.nocomment <- ReadOtuTable('../testdata/otu_table_nocomment.txt')
+
+expect_that(as.character(otu.table.nocomment[1,]$SampleID), equals("A.1"))
+
