@@ -7,6 +7,8 @@ ReadCommentedHeader <- function(fileobj) {
 }
 
 #' Read a QIIME sample mapping file and return a data frame.
+#'
+#' @param filepath Path to sample mapping file.
 ReadSampleMapping <- function(filepath) {  
   sample.file <- file(filepath, 'rt')
 
@@ -29,6 +31,9 @@ ReadSampleMapping <- function(filepath) {
 } 
 
 #' Group samples by common value in metadata column.
+#'
+#' @param sample.mapping Sample mapping data frame.
+#' @param colname Column name by which to group.
 GroupSamplesBy <- function(sample.mapping, colname) {
   tapply(sample.mapping$SampleID, sample.mapping[[colname]], c)
 }
