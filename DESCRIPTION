@@ -1,0 +1,12 @@
+Package: qiimer
+Version: 0.1-0
+License: GPL (>= 2)
+Date: 2010-11-10
+Title: Work with QIIME Output Files in R
+Author: Kyle Bittinger <kylebittinger@gmail.com>
+Maintainer: Kyle Bittinger <kylebittinger@gmail.com>
+Depends: reshape
+Description: Open QIIME output files in R, compute statistics, and
+    create interesting plots from the data.
+URL: http://www.r-project.org
+Collate: 'otu_table.R' 'sample_mapping.R'

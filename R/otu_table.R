@@ -1,47 +1,5 @@
-library(reshape)
-
-ReadCommentedHeader <- function(fileobj) {
-  # Private function to read a (possibly) commented header line from a tsv file.
-  
-  header <- readLines(fileobj, n=1)
-  header <- sub("^#", "", header)
-  unlist(strsplit(header, "\t"))
-}
-
-ReadSampleMapping <- function(filepath) {
-  # Read a QIIME sample mapping file and return a data frame.
-  
-  sample.file <- file(filepath, 'rt')
-
-  cols <- ReadCommentedHeader(sample.file)
-
-  sample.table <- read.table(sample.file,
-                             col.names=cols,
-                             sep="\t",
-                             quote="",
-                             row.names=NULL,
-                             na.strings=c("NA", "na", "Null", "null"))
-  close(sample.file)
-
-  sample.table$SampleID <- as.character(sample.table$SampleID)
-  if ('Description' %in% names(sample.table)) {
-    sample.table$Description <- as.character(sample.table$Description)
-  }
-
-  sample.table
-} 
-
-GroupSamplesBy <- function(sample.mapping, colname) {
-  tapply(sample.mapping$SampleID, sample.mapping[[colname]], c)
-}
-
-AttachMetadata <- function(otu.table, sample.mapping) {
-  merge(otu.table, sample.mapping, by=c('SampleID'))
-}
-
+#' Read a QIIME OTU table and return a data frame.
 ReadOtuTable <- function(filepath) {
-  # Read a QIIME OTU table and return a data frame.
-  
   otu.file <- file(filepath, 'rt')
 
   # Often, header line is preceeded by a comment line.
@@ -69,29 +27,34 @@ ReadOtuTable <- function(filepath) {
   otu.table
 }
 
-# OTU table functions
-
+#' Return a list of counts per sample
 SampleCounts <- function(otu.table) {
   tapply(otu.table$Counts, otu.table$SampleID, sum)
 }
+
+#' Return a list of counts per OTU
 OtuCounts <- function(otu.table) {
   tapply(otu.table$Counts, otu.table$OtuID, sum)
 }
+
+#' Return a list of counts per assigned lineage
 LineageCounts <- function(otu.table) {
   tapply(otu.table$Counts, list(otu.table$Consensus.Lineage, otu.table$SampleID), sum)
 }
 
-
-ReadAssignmentTable <- function(filepath) {
-  # Read a parsed table of OTU assignments
-
-  read.table(filepath, header=TRUE, sep="\t", quote="", row.names=NULL)
+#' Attach sample metadata to OTU table data frame
+AttachMetadata <- function(otu.table, sample.mapping) {
+  merge(otu.table, sample.mapping, by=c('SampleID'))
 }
 
+#' Default breakpoints for taxonomy heatmap
 kHeatmapBreaks <- c(0, 0.00001, 0.005, 0.01, 0.10, 0.20, 0.40, 0.60, 1)
+
+#' Default colors for taxonomy heatmap
 kHeatmapColors <- c(rgb(255, 255, 255, max=255), rainbow(7))
 
-TaxonomyHeatmap <- function(otu.table) {
+#' Create a heatmap of taxonomic assignments
+TaxonomyHeatmap <- function(otu.table, cexRow=0.7) {
   assignment.counts <- LineageCounts(otu.table)
   assignment.fracs <- apply(assignment.counts, 2, function(x) { x / sum(x) })
   
@@ -105,14 +68,17 @@ TaxonomyHeatmap <- function(otu.table) {
             #labRow=assignment.labels,
             breaks=kHeatmapBreaks,
             col=kHeatmapColors,
-            margins=c(5,25),
-            cexRow=1,
+            margins=c(5,18),
+            cexRow=cexRow,
             cexCol=1,
           )
-  legend(0.8, 0.5,
+
+  legend(0.83, 0.5,
          head(kHeatmapBreaks, n=-1),
          fill=kHeatmapColors,
          col=kHeatmapColors,
+         cex=0.6,
          )
 }
+
 
