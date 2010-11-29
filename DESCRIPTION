@@ -9,4 +9,4 @@ Depends: reshape
 Description: Open QIIME output files in R, compute statistics, and
     create interesting plots from the data.
 URL: http://www.r-project.org
-Collate: 'otu_table.R' 'sample_mapping.R'
+Collate: 'distance_matrix.R' 'otu_table.R' 'sample_mapping.R'

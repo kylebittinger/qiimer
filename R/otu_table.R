@@ -27,34 +27,35 @@ ReadOtuTable <- function(filepath) {
   otu.table
 }
 
-#' Return a list of counts per sample
+#' Return a list of counts per sample.
 SampleCounts <- function(otu.table) {
   tapply(otu.table$Counts, otu.table$SampleID, sum)
 }
 
-#' Return a list of counts per OTU
+#' Return a list of counts per OTU.
 OtuCounts <- function(otu.table) {
   tapply(otu.table$Counts, otu.table$OtuID, sum)
 }
 
-#' Return a list of counts per assigned lineage
+#' Return a list of counts per assigned lineage.
 LineageCounts <- function(otu.table) {
   tapply(otu.table$Counts, list(otu.table$Consensus.Lineage, otu.table$SampleID), sum)
 }
 
-#' Attach sample metadata to OTU table data frame
+#' Attach sample metadata to OTU table data frame.
 AttachMetadata <- function(otu.table, sample.mapping) {
   merge(otu.table, sample.mapping, by=c('SampleID'))
 }
 
-#' Default breakpoints for taxonomy heatmap
+#' Default breakpoints for taxonomy heatmap.
 kHeatmapBreaks <- c(0, 0.00001, 0.005, 0.01, 0.10, 0.20, 0.40, 0.60, 1)
 
-#' Default colors for taxonomy heatmap
+#' Default colors for taxonomy heatmap.
 kHeatmapColors <- c(rgb(255, 255, 255, max=255), rainbow(7))
 
-#' Create a heatmap of taxonomic assignments
-TaxonomyHeatmap <- function(otu.table, cexRow=0.7) {
+#' Create a heatmap of taxonomic assignments.
+TaxonomyHeatmap <- function(otu.table, cexCol=1, cexRow=0.7, margins=c(5,18),
+                            breaks=kHeatmapBreaks, col=kHeatmapColors) {
   assignment.counts <- LineageCounts(otu.table)
   assignment.fracs <- apply(assignment.counts, 2, function(x) { x / sum(x) })
   
@@ -65,12 +66,11 @@ TaxonomyHeatmap <- function(otu.table, cexRow=0.7) {
             Colv=TRUE,
             
             scale="none",
-            #labRow=assignment.labels,
-            breaks=kHeatmapBreaks,
-            col=kHeatmapColors,
-            margins=c(5,18),
+            breaks=breaks,
+            col=col,
+            margins=margins,
             cexRow=cexRow,
-            cexCol=1,
+            cexCol=cexCol,
           )
 
   legend(0.83, 0.5,
