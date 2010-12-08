@@ -48,37 +48,32 @@ AttachMetadata <- function(otu.table, sample.mapping) {
 }
 
 #' Default breakpoints for taxonomy heatmap.
-kHeatmapBreaks <- c(0, 0.00001, 0.005, 0.01, 0.10, 0.20, 0.40, 0.60, 1)
+kHeatmapBreaks <- c(0, 0.00001, 0.001, 0.01, 0.10, 0.20, 0.30, 1)
 
 #' Default colors for taxonomy heatmap.
-kHeatmapColors <- c(rgb(255, 255, 255, max=255), rainbow(7))
+kHeatmapColors <- c(rgb(240, 249, 232, max=255),
+                    rgb(204, 235, 197, max=255),
+                    rgb(168, 221, 181, max=255),
+                    rgb(123, 204, 196, max=255),
+                    rgb(78, 179, 211, max=255),
+                    rgb(43, 140, 190, max=255),
+                    rgb(8, 88, 158, max=255))
 
 #' Create a heatmap of taxonomic assignments.
-TaxonomyHeatmap <- function(otu.table, cexCol=1, cexRow=0.7, margins=c(5,18),
-                            breaks=kHeatmapBreaks, col=kHeatmapColors) {
+#'
+#' Additional arguments are passed directly to the pheatmap function.
+TaxonomicHeatmap <- function(otu.table, breaks=kHeatmapBreaks, col=kHeatmapColors, ...) {
   assignment.counts <- LineageCounts(otu.table)
   assignment.fracs <- apply(assignment.counts, 2, function(x) { x / sum(x) })
-  
-  heatmap(as.matrix(assignment.fracs),
-
-            # dendrogram control
-            Rowv=TRUE,
-            Colv=TRUE,
-            
-            scale="none",
-            breaks=breaks,
-            col=col,
-            margins=margins,
-            cexRow=cexRow,
-            cexCol=cexCol,
-          )
-
-  legend(0.83, 0.5,
-         head(kHeatmapBreaks, n=-1),
-         fill=kHeatmapColors,
-         col=kHeatmapColors,
-         cex=0.6,
-         )
+  pheatmap(as.matrix(assignment.fracs), breaks=breaks, col=col, ...)
 }
 
+#' Create a histogram of proportional OTU counts.
+#'
+#' This can be useful for setting the breakpoints in an OTU Heatmap.
+OtuHistogram <- function(otu.table) {
+  assignment.counts <- LineageCounts(otu.table)
+  assignment.fracs <- apply(assignment.counts, 2, function(x) { log10(x / sum(x)) })
+  hist(assignment.fracs)
+}
 
