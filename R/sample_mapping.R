@@ -1,18 +1,16 @@
-#' Read a possibly commented header line.
+#' Read a QIIME sample mapping file.
 #'
-ReadCommentedHeader <- function(fileobj) {
-  header <- readLines(fileobj, n=1)
-  header <- sub("^#", "", header)
-  unlist(strsplit(header, "\t"))
-}
-
-#' Read a QIIME sample mapping file and return a data frame.
+#' @param filepath Path to sample mapping file.  The file must conform to the
+#'   QIIME standards, detailed at
+#'   \url{http://qiime.org/documentation/file_formats.html}.
 #'
-#' @param filepath Path to sample mapping file.
+#' @return A data frame.
 ReadSampleMapping <- function(filepath) {  
   sample.file <- file(filepath, 'rt')
 
-  cols <- ReadCommentedHeader(sample.file)
+  header <- readLines(sample.file, n=1)
+  header <- sub("^#", "", header)
+  cols <- unlist(strsplit(header, "\t"))
 
   sample.table <- read.table(sample.file,
                              col.names=cols,
@@ -27,13 +25,16 @@ ReadSampleMapping <- function(filepath) {
     sample.table$Description <- as.character(sample.table$Description)
   }
 
-  sample.table
+  sample.table[order(sample.table$SampleID),]
 } 
 
 #' Group samples by common value in metadata column.
 #'
 #' @param sample.mapping Sample mapping data frame.
+#'
 #' @param colname Column name by which to group.
+#'
+#' @return A list of sample names per category.
 GroupSamplesBy <- function(sample.mapping, colname) {
   tapply(sample.mapping$SampleID, sample.mapping[[colname]], c)
 }

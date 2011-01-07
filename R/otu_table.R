@@ -1,14 +1,27 @@
-#' Read a QIIME OTU table and return a data frame.
-ReadOtuTable <- function(filepath) {
+#' Read a QIIME OTU table.
+#'
+#' @param filepath Path to OTU table file.
+#'
+#' @param commented TRUE if the header line is preceeded by an additional
+#'   comment line, otherwise FALSE.  This is usually the case for OTU
+#'   tables generated with QIIME, so we default to TRUE.
+#'
+#' @return A data frame representing the OTU table.  The data frame takes the
+#'   form of an association table, where each row specifies an OTU, a SampleID,
+#'   and a value for the count.  Assigned lineages are listed in a column named
+#'   \code{Assignment}.  The format data frame is different from the
+#'   text-formatted OTU table, which is a matrix of OTU's by Sample.
+ReadOtuTable <- function(filepath, commented=TRUE) {
   otu.file <- file(filepath, 'rt')
 
-  # Often, header line is preceeded by a comment line.
   header <- readLines(otu.file, n=1)
-  if (grepl("Full OTU Counts", header)) {
+  if (commented) {
     header <- readLines(otu.file, n=1)
   }
+
   cols <- unlist(strsplit(header, "\t"))
   cols[1] <- "OtuID"
+  cols[length(cols)] <- "Assignment"
   
   otu.table <- read.table(otu.file,
                           col.names=cols,
@@ -20,60 +33,104 @@ ReadOtuTable <- function(filepath) {
 
   otu.table$OtuID <- as.factor(otu.table$OtuID)
   otu.table <- melt(otu.table,
-                    id.vars=c('OtuID', 'Consensus.Lineage'),
+                    id.vars=c('OtuID', 'Assignment'),
                     variable_name="SampleID",
                     )
   otu.table <- rename(otu.table, c(value="Counts"))
   otu.table
 }
 
-#' Return a list of counts per sample.
+
+#' List total OTU counts for each sample.
+#'
+#' @param otu.table OTU table dataframe.
+#'
+#' @return A list of counts per sample.
 SampleCounts <- function(otu.table) {
   tapply(otu.table$Counts, otu.table$SampleID, sum)
 }
 
-#' Return a list of counts per OTU.
+
+#' List total counts for each OTU.
+#'
+#' @param otu.table OTU table dataframe.
+#'
+#' @return A list of counts per OTU.
 OtuCounts <- function(otu.table) {
   tapply(otu.table$Counts, otu.table$OtuID, sum)
 }
 
-#' Return a list of counts per assigned lineage.
+
+#' Tablulate counts per assigned lineage across all samples.
+#'
+#' @param otu.table OTU table dataframe.
+#'
+#' @return A matrix with assigned lineages in the rows and samples in the
+#'   columns.
 LineageCounts <- function(otu.table) {
-  tapply(otu.table$Counts, list(otu.table$Consensus.Lineage, otu.table$SampleID), sum)
+  tapply(otu.table$Counts, list(otu.table$Assignment, otu.table$SampleID), sum)
 }
 
 #' Attach sample metadata to OTU table data frame.
+#'
+#' @param otu.table OTU table dataframe.
+#'
+#' @param sample.mapping Sample mapping dataframe, containing a
+#'   \code{SampleID} column.
 AttachMetadata <- function(otu.table, sample.mapping) {
   merge(otu.table, sample.mapping, by=c('SampleID'))
 }
 
-#' Default breakpoints for taxonomy heatmap.
-kHeatmapBreaks <- c(0, 0.00001, 0.001, 0.01, 0.10, 0.20, 0.30, 1)
-
-#' Default colors for taxonomy heatmap.
-kHeatmapColors <- c(rgb(240, 249, 232, max=255),
-                    rgb(204, 235, 197, max=255),
-                    rgb(168, 221, 181, max=255),
-                    rgb(123, 204, 196, max=255),
-                    rgb(78, 179, 211, max=255),
-                    rgb(43, 140, 190, max=255),
-                    rgb(8, 88, 158, max=255))
 
 #' Create a heatmap of taxonomic assignments.
 #'
-#' Additional arguments are passed directly to the pheatmap function.
-TaxonomicHeatmap <- function(otu.table, breaks=kHeatmapBreaks, col=kHeatmapColors, ...) {
+#' @param threshold Minimum number of OTU counts necessary for an assignment to
+#'   be included in the heatmap.  Assignment groups are filtered prior to
+#'   calculating the proportions, so these groups are effectively removed from
+#'   the analysis.
+#'
+#' @param sample_order Optional vector of integers, specifying the order of the
+#'   samples (columns) in the heatmap.  A suitable vector can be generated from
+#'   a sample mapping table by applying the built-in \code{order} function to
+#'   the column of interest.  By default, the samples are sorted in
+#'   alphabetical order.
+#'
+#' @param color Vector of colors to use in the heatmap.  The default value is
+#'   based on a 7-level GnBu sequential color scale from
+#'   \url{http://colorbrewer2.org/}.  This differs from the default value in
+#'   the pheatmap package, which can be found in the pheatmap documentation.
+#'
+#' @param breaks Optional sequence of numbers used to map heatmap values to
+#'   colors.  Must cover the range from 0 to 1 and be one element longer than
+#'   color vector. The default breaks are adapted to show relative abundance of
+#'   major groups, while maintaining some contrast at the presence/absence
+#'   level.  If value is NA (default for pheatmap), then the breaks are
+#'   calculated automatically.
+#'
+#' @return A heatmap plot of the proportions of assigned lineages in each sample.
+#'
+#' @usage TaxonomicHeatmap <- function(otu.table, threshold=0, sample_order=NA,
+#'  color=c("#FFFFFF", "#CCEBC5", "#A8DDB5", "#7BCCC4", "#4EB3D3", "#2B8CBE",
+#'  "#08589E"), breaks=c(0, 0.00001, 0.001, 0.01, 0.10, 0.20, 0.30, 1), ...)
+TaxonomicHeatmap <- function(otu.table, threshold=0, sample_order=NA,
+                             color=c("#FFFFFF", "#CCEBC5", "#A8DDB5", "#7BCCC4", "#4EB3D3", "#2B8CBE", "#08589E"),
+                             breaks=c(0, 0.00001, 0.001, 0.01, 0.10, 0.20, 0.30, 1),
+                             ...) {
   assignment.counts <- LineageCounts(otu.table)
+
+  # reorder the columns if requested
+  if (!is.na(sample_order)) {
+    assignment.counts <- assignment.counts[, sample_order]
+  }
+  
+  # remove rows falling below the threshold
+  if (threshold > 0) {
+    assignment.sums <- apply(assignment.counts, 1, sum)
+    assignment.counts <- assignment.counts[assignment.sums >= threshold,] 
+  }
+
   assignment.fracs <- apply(assignment.counts, 2, function(x) { x / sum(x) })
-  pheatmap(as.matrix(assignment.fracs), breaks=breaks, col=col, ...)
+  pheatmap(as.matrix(assignment.fracs), breaks=breaks, color=color, ...)
 }
 
-#' Create a histogram of proportional OTU counts.
-#'
-#' This can be useful for setting the breakpoints in an OTU Heatmap.
-OtuHistogram <- function(otu.table) {
-  assignment.counts <- LineageCounts(otu.table)
-  assignment.fracs <- apply(assignment.counts, 2, function(x) { log10(x / sum(x)) })
-  hist(assignment.fracs)
-}
 
