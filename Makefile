@@ -1,9 +1,9 @@
-doc: ..pdf
+doc: qiimer-manual.pdf
 
-..pdf:
+qiimer-manual.pdf:
 	R CMD roxygen -d .
-	R CMD Rd2pdf .
+	R CMD Rd2pdf --output=qiimer-manual.pdf --no-preview .
 
 clean:
-	rm -f ..pdf
+	rm -f qiimer-manual.pdf
 	rm -f man/*.Rd
