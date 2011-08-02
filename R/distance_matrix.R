@@ -38,8 +38,6 @@ DistanceHistogram <- function(distmat, sample.ids1, sample.ids2, breaks=12,
                               main="Distance Histogram", xlab="Distance",
                               ...) {
   group.distances <- GroupDistances(distmat, sample.ids1, sample.ids2)
-  #col2.a <- col2rgb(col2)
-  #col2.b <- rgb(col2.a[1,1], col2.a[2,1], col2.a[3,1], alpha, maxColorValue=255)
   h1 <- hist(group.distances$within, breaks=breaks, plot=FALSE)
   h2 <- hist(group.distances$between, breaks=breaks, plot=FALSE)
   ymax <- if (freq) max(c(h1$counts, h2$counts)) else max(c(h1$density, h2$density))

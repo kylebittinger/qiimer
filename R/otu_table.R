@@ -40,13 +40,21 @@ ReadOtuTable <- function(filepath, commented=TRUE) {
   otu.table
 }
 
-
-#' List total OTU counts for each sample.
+#' List OTU assignments.
 #'
 #' @param otu.table OTU table dataframe.
 #'
-#' @return A list of counts per sample.
-SampleCounts <- function(otu.table) {
+#' @return A list of assignments per OTU.
+SampleTotals <- function(otu.table) {
+  tapply(otu.table$Assignment, otu.table$OtuID, function (x) { x[1] })
+}
+
+#' List total counts for each sample.
+#'
+#' @param otu.table OTU table dataframe.
+#'
+#' @return A list of total counts per sample.
+SampleTotals <- function(otu.table) {
   tapply(otu.table$Counts, otu.table$SampleID, sum)
 }
 
@@ -55,13 +63,25 @@ SampleCounts <- function(otu.table) {
 #'
 #' @param otu.table OTU table dataframe.
 #'
-#' @return A list of counts per OTU.
-OtuCounts <- function(otu.table) {
+#' @return A list of total counts per OTU.
+OtuTotals <- function(otu.table) {
   tapply(otu.table$Counts, otu.table$OtuID, sum)
 }
 
 
-#' Tablulate counts per assigned lineage across all samples.
+#' Tabulate OTU counts by sample.
+#'
+#' @param otu.table OTU table dataframe.
+#'
+#' @return A data frame with samples listed across the columns and OTU's
+#'   appearing across the rows.  The form of this data frame resembles the
+#'   original OTU table text file.
+OtuCounts <- function(otu.table) {
+  tapply(otu.table$Counts, list(otu.table$OtuID, otu.table$SampleID))
+}
+
+
+#' Tablulate counts per assigned lineage by sample.
 #'
 #' @param otu.table OTU table dataframe.
 #'
