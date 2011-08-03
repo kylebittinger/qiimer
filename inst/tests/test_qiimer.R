@@ -1,24 +1,27 @@
 context('Import Sample Mapping file')
 
-sample.mapping <- ReadSampleMapping('../testdata/sample_map.txt')
+sample_table <- parse_mapping_file('../testdata/sample_map.txt')
+sample_names <- c("A.1", "A.2", "B.1", "B.2", "C.1")
 
-mapping.names <- c("SampleID", "BarcodeSequence", "LinkerPrimerSequence", "Diet", "Description")
-expect_that(names(sample.mapping), equals(mapping.names))
-
-mapping.samples <- c("A.1", "A.2", "B.1", "B.2", "C.1")
-expect_that(sample.mapping$SampleID, equals(mapping.samples))
-
+test_that("Sample column names are parsed correctly", 
+  expect_that(colnames(sample_table), equals(
+    c("SampleID", "BarcodeSequence", "LinkerPrimerSequence", "Diet",
+      "Description"))))
+test_that("Sample IDs are parsed correctly", 
+  expect_that(sample_table$SampleID, equals(
+    sample_names)))
 
 
 context('Import OTU table')
 
-otu.table <- ReadOtuTable('../testdata/otu_table.txt')
+otu_table <- parse_otu_table('../testdata/otu_table.txt')
 
-otu.ids <- as.factor(rep(seq(0, 4), 5))
-expect_that(otu.table$OtuID, equals(otu.ids))
-
-sample.ids <- as.factor(rep(mapping.samples, each=5))
-expect_that(otu.table$SampleID, equals(sample.ids))
+test_that("OTU IDs are parsed correctly",
+  expect_that(otu_table$otu_ids, equals(
+    c("0", "1", "2", "3", "5"))))
+test_that("Sample IDs are parsed correctly",
+  expect_that(otu_table$sample_ids, equals(
+    sample_names)))
 
 
 

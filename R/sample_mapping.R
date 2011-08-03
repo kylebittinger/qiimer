@@ -5,28 +5,28 @@
 #'   \url{http://qiime.org/documentation/file_formats.html}.
 #'
 #' @return A data frame.
-ReadSampleMapping <- function(filepath) {  
-  sample.file <- file(filepath, 'rt')
+parse_mapping_file <- function(filepath) {  
+  sample_file <- file(filepath, 'rt')
 
-  header <- readLines(sample.file, n=1)
+  header <- readLines(sample_file, n=1)
   header <- sub("^#", "", header)
   cols <- unlist(strsplit(header, "\t"))
 
-  sample.table <- read.table(sample.file,
+  sample_data <- read.table(sample_file,
                              col.names=cols,
                              sep="\t",
                              quote="",
                              row.names=NULL,
                              na.strings=c("NA", "na", "Null", "null"))
-  close(sample.file)
+  close(sample_file)
 
-  sample.table$SampleID <- as.character(sample.table$SampleID)
-  if ('Description' %in% names(sample.table)) {
-    sample.table$Description <- as.character(sample.table$Description)
+  sample_data$SampleID <- as.character(sample_data$SampleID)
+  if ('Description' %in% names(sample_data)) {
+    sample_data$Description <- as.character(sample_data$Description)
   }
-
-  sample.table[order(sample.table$SampleID),]
+  sample_data
 } 
+
 
 #' Group samples by common value in metadata column.
 #'
@@ -35,7 +35,7 @@ ReadSampleMapping <- function(filepath) {
 #' @param colname Column name by which to group.
 #'
 #' @return A list of sample names per category.
-GroupSamplesBy <- function(sample.mapping, colname) {
+group_samples_by_column <- function(sample.mapping, colname) {
   tapply(sample.mapping$SampleID, sample.mapping[[colname]], c)
 }
 

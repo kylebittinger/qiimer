@@ -1,4 +1,4 @@
-#' Read a QIIME OTU table.
+#' Parse a QIIME OTU table file.
 #'
 #' @param filepath Path to OTU table file.
 #'
@@ -6,114 +6,82 @@
 #'   comment line, otherwise FALSE.  This is usually the case for OTU
 #'   tables generated with QIIME, so we default to TRUE.
 #'
-#' @return A data frame representing the OTU table.  The data frame takes the
-#'   form of an association table, where each row specifies an OTU, a SampleID,
-#'   and a value for the count.  Assigned lineages are listed in a column named
-#'   \code{Assignment}.  The format data frame is different from the
-#'   text-formatted OTU table, which is a matrix of OTU's by Sample.
-ReadOtuTable <- function(filepath, commented=TRUE) {
-  otu.file <- file(filepath, 'rt')
-
-  header <- readLines(otu.file, n=1)
+#' @return A list with four attributes: sample_ids, otu_ids, counts, and 
+#'   metadata, a data structure similar to that returned by the python 
+#'   function qiime.parse.parse_otu_table.  The sample_ids, otu_ids, and
+#'   metadata attributes are character vectors.  The counts attribute is an
+#'   integer matrix with one column per sample_id and one row per otu_id.
+parse_otu_table <- function(filepath, commented=TRUE) {
+  f <- file(filepath, "rt")
+  header_line <- readLines(f, n=1)
   if (commented) {
-    header <- readLines(otu.file, n=1)
+    header_line <- readLines(f, n=1)
   }
+  col_names <- unlist(strsplit(header_line, "\t"))
 
-  cols <- unlist(strsplit(header, "\t"))
-  cols[1] <- "OtuID"
-  cols[length(cols)] <- "Assignment"
-  
-  otu.table <- read.table(otu.file,
-                          col.names=cols,
-                          sep="\t",
-                          quote="",
-                          as.is=TRUE,
-                          row.names=NULL)
-  close(otu.file)
+  col_classes <- rep("numeric", times=length(col_names))
+  col_classes[c(1, length(col_classes))] <- "character"
 
-  otu.table$OtuID <- as.factor(otu.table$OtuID)
-  otu.table <- melt(otu.table,
-                    id.vars=c('OtuID', 'Assignment'),
-                    variable_name="SampleID",
-                    )
-  otu.table <- rename(otu.table, c(value="Counts"))
-  otu.table
+  full_otu_table <- read.table(
+    f, col.names=col_names, colClasses=col_classes, sep="\t", 
+    quote="", as.is=TRUE, header=FALSE)
+  close(f)
+
+  data_cols <- 2:(length(col_names) - 1)
+
+  sample_ids <- col_names[data_cols]
+  otu_ids <- as.character(full_otu_table[,1])
+
+  counts <- full_otu_table[,data_cols]
+  rownames(counts) <- otu_ids
+
+  metadata <- full_otu_table[,length(col_names)]
+  names(metadata) <- otu_ids
+
+  list(
+    sample_ids=sample_ids, otu_ids=otu_ids, counts=counts, metadata=metadata)
 }
 
-#' List OTU assignments.
+#' Reformat taxonomic assignments for presentation.
 #'
-#' @param otu.table OTU table dataframe.
+#' @param assignments A character vector of taxonomic assignments.
 #'
-#' @return A list of assignments per OTU.
-SampleTotals <- function(otu.table) {
-  tapply(otu.table$Assignment, otu.table$OtuID, function (x) { x[1] })
+#' @param sep The character separating taxa in each assignment.
+#'
+#' @param prefix_rank The rank of taxonomy to use as the first word in the
+#'   prettyprinted assignment.
+#'
+#' @param suffix_rank The rank of taxonomy to use as the second word in the
+#'   prettyprinted assignment.
+#'
+#' @return A character vector of reformatted assignments.
+prettyprint_assignments <- function(assignments, sep=";", prefix_rank=3, suffix_rank=6) {
+  # make list of taxa
+  alltaxa <- strsplit(assignments, sep)
+  # Phylum and final classification
+  superraw.labels <- lapply(alltaxa, function(x) {
+    nx <- length(x)
+    if (nx >= suffix_rank) x[c(prefix_rank, suffix_rank)] else
+      if (nx > prefix_rank) x[c(prefix_rank, nx)] else x
+    })
+  # Paste these two items into a single string
+  raw.labels <- lapply(superraw.labels, paste, collapse=" ")
+  # Convert resulting nested list into a vector
+  unlist(raw.labels)
 }
 
-#' List total counts for each sample.
+#' Create a heatmap of OTU counts.
 #'
-#' @param otu.table OTU table dataframe.
+#' @param otu_counts A matrix of OTU counts, one row per OTU and one column 
+#'   per sample
 #'
-#' @return A list of total counts per sample.
-SampleTotals <- function(otu.table) {
-  tapply(otu.table$Counts, otu.table$SampleID, sum)
-}
-
-
-#' List total counts for each OTU.
-#'
-#' @param otu.table OTU table dataframe.
-#'
-#' @return A list of total counts per OTU.
-OtuTotals <- function(otu.table) {
-  tapply(otu.table$Counts, otu.table$OtuID, sum)
-}
-
-
-#' Tabulate OTU counts by sample.
-#'
-#' @param otu.table OTU table dataframe.
-#'
-#' @return A data frame with samples listed across the columns and OTU's
-#'   appearing across the rows.  The form of this data frame resembles the
-#'   original OTU table text file.
-OtuCounts <- function(otu.table) {
-  tapply(otu.table$Counts, list(otu.table$OtuID, otu.table$SampleID))
-}
-
-
-#' Tablulate counts per assigned lineage by sample.
-#'
-#' @param otu.table OTU table dataframe.
-#'
-#' @return A matrix with assigned lineages in the rows and samples in the
-#'   columns.
-LineageCounts <- function(otu.table) {
-  tapply(otu.table$Counts, list(otu.table$Assignment, otu.table$SampleID), sum)
-}
-
-#' Attach sample metadata to OTU table data frame.
-#'
-#' @param otu.table OTU table dataframe.
-#'
-#' @param sample.mapping Sample mapping dataframe, containing a
-#'   \code{SampleID} column.
-AttachMetadata <- function(otu.table, sample.mapping) {
-  merge(otu.table, sample.mapping, by=c('SampleID'))
-}
-
-
-#' Create a heatmap of taxonomic assignments.
+#' @param assignments A character vector of OTU assignments.  Length should
+#'   match number of rows in otu_counts
 #'
 #' @param threshold Minimum number of OTU counts necessary for an assignment to
 #'   be included in the heatmap.  Assignment groups are filtered prior to
 #'   calculating the proportions, so these groups are effectively removed from
 #'   the analysis.
-#'
-#' @param sample_order Optional vector of integers, specifying the order of the
-#'   samples (columns) in the heatmap.  A suitable vector can be generated from
-#'   a sample mapping table by applying the built-in \code{order} function to
-#'   the column of interest.  By default, the samples are sorted in
-#'   alphabetical order.
 #'
 #' @param color Vector of colors to use in the heatmap.  The default value is
 #'   based on a 7-level GnBu sequential color scale from
@@ -122,35 +90,22 @@ AttachMetadata <- function(otu.table, sample.mapping) {
 #'
 #' @param breaks Optional sequence of numbers used to map heatmap values to
 #'   colors.  Must cover the range from 0 to 1 and be one element longer than
-#'   color vector. The default breaks are adapted to show relative abundance of
-#'   major groups, while maintaining some contrast at the presence/absence
-#'   level.  If value is NA (default for pheatmap), then the breaks are
-#'   calculated automatically.
+#'   the color vector. The default breaks are adapted to show relative
+#'   abundance of major groups, while maintaining some contrast at the
+#'   presence/absence level.  If value is NA (default for pheatmap), then the
+#'   breaks are calculated automatically.
 #'
-#' @return A heatmap plot of the proportions of assigned lineages in each sample.
-#'
-#' @usage TaxonomicHeatmap <- function(otu.table, threshold=0, sample_order=NA,
-#'  color=c("#FFFFFF", "#CCEBC5", "#A8DDB5", "#7BCCC4", "#4EB3D3", "#2B8CBE",
-#'  "#08589E"), breaks=c(0, 0.00001, 0.001, 0.01, 0.10, 0.20, 0.30, 1), ...)
-TaxonomicHeatmap <- function(otu.table, threshold=0, sample_order=NA,
-                             color=c("#FFFFFF", "#CCEBC5", "#A8DDB5", "#7BCCC4", "#4EB3D3", "#2B8CBE", "#08589E"),
-                             breaks=c(0, 0.00001, 0.001, 0.01, 0.10, 0.20, 0.30, 1),
-                             ...) {
-  assignment.counts <- LineageCounts(otu.table)
-
-  # reorder the columns if requested
-  if (!is.na(sample_order)) {
-    assignment.counts <- assignment.counts[, sample_order]
-  }
-  
-  # remove rows falling below the threshold
+#' @param ... Additional arguments are passed to the pheatmap function.
+#' @return A heatmap plot of the proportions of assignments in each sample
+otu_heatmap <- function(otu_counts, assignments, threshold=0,
+  color=brewer.pal(7, "GnBu"), 
+  breaks=c(0, 1e-05, 0.001, 0.01, 0.1, 0.2, 0.3, 1), ...) {
+  # group OTUs by common assignment
+  assignment_counts <- rowsum(otu_counts, assignments)
+  assignment_fracs <- apply(assignment_counts, 2, function(x) {x / sum(x)})
   if (threshold > 0) {
-    assignment.sums <- apply(assignment.counts, 1, sum)
-    assignment.counts <- assignment.counts[assignment.sums >= threshold,] 
+    assignment_sums <- apply(assignment_counts, 1, sum)
+    assignment_fracs <- assignment_fracs[assignment_sums >= threshold,]
   }
-
-  assignment.fracs <- apply(assignment.counts, 2, function(x) { x / sum(x) })
-  pheatmap(as.matrix(assignment.fracs), breaks=breaks, color=color, ...)
+  pheatmap(as.matrix(assignment_fracs), breaks=breaks, color=color, ...)
 }
-
-

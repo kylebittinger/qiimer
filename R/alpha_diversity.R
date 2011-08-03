@@ -2,30 +2,29 @@
 #'
 #' @param filepath Path to alpha diversity table file.
 #'
-#' @return A data frame representing the table.
-ReadAlphaDiversity <- function(filepath) {
-  adiv.table <- read.table(filepath,
+#' @return A data frame representing the table.  The table is returned in
+#'   melted form so sample IDs appear in rows rather than in columns.  The
+#'   column of diversity values is named "diversity".
+parse_rarefaction <- function(filepath) {
+  rarefaction_table <- read.table(filepath,
                            sep="\t",
                            quote="",
                            na.strings=c('NA', 'n/a'),
                            comment.char="#",
                            header=TRUE)
-  adiv.table <- adiv.table[2:length(colnames(adiv.table))]
-  colnames(adiv.table)[1] <- "num.seqs"
-  adiv.table <- melt(adiv.table, id.vars=c("num.seqs", "iteration"), variable_name="SampleID")
-  colnames(adiv.table)[length(colnames(adiv.table))] <- "diversity"
-  adiv.table
+  rarefaction_table <- rarefaction_table[2:length(colnames(rarefaction_table))]
+  colnames(rarefaction_table)[1] <- "sequences_per_sample"
+  rarefaction_table <- melt(rarefaction_table, id.vars=c("sequences_per_sample", "iteration"), variable_name="SampleID")
+  colnames(rarefaction_table)[length(colnames(rarefaction_table))] <- "diversity"
+  rarefaction_table
 }
 
 #' Compute summary statistics for collated alpha diversity tables.
 #'
-#' @param adiv.table A collated alpha diversity data frame.
+#' @param rarefaction_table A collated alpha diversity data frame.
 #'
 #' @return A data frame of summary statistics.
-AlphaDiversityStats <- function(adiv.table) {
-  ddply(adiv.table,
-        c("num.seqs", "SampleID"),
-        summarise,
-        mean=mean(diversity),
-        sd=sd(diversity))
+rarefaction_stats <- function(rarefaction_table) {
+  ddply(rarefaction_table, c("sequences_per_sample", "SampleID"),
+        summarise, mean=mean(diversity), sd=sd(diversity))
 }
