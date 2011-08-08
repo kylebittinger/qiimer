@@ -100,12 +100,45 @@ prettyprint_assignments <- function(assignments, sep=";", prefix_rank=3, suffix_
 otu_heatmap <- function(otu_counts, assignments, threshold=0,
   color=brewer.pal(7, "GnBu"), 
   breaks=c(0, 1e-05, 0.001, 0.01, 0.1, 0.2, 0.3, 1), ...) {
-  # group OTUs by common assignment
   assignment_counts <- rowsum(otu_counts, assignments)
-  assignment_fracs <- apply(assignment_counts, 2, function(x) {x / sum(x)})
-  if (threshold > 0) {
-    assignment_sums <- apply(assignment_counts, 1, sum)
-    assignment_fracs <- assignment_fracs[assignment_sums >= threshold,]
-  }
+  rows_to_keep <- apply(assignment_counts, 1, sum) >= threshold
+  assignment_fracs <- apply(assignment_counts, 2, function (x) {x / sum(x)}) 
+  assignment_fracs <- assignment_fracs[rows_to_keep,]
   pheatmap(as.matrix(assignment_fracs), breaks=breaks, color=color, ...)
+}
+
+#' Create a barplot of OTU assignments.
+#'
+#' @param otu_counts Matrix of OTU counts, one row per OTU and one column 
+#'   per sample
+#'
+#' @param assignments A character vector of OTU assignments.  Length should
+#'   match number of rows in otu_counts
+#'
+#' @return A bar plot of OTU assignments.
+otu_barplot <- function(otu_counts, assignments) {
+  max_categories <- 8 # Max. supported by color brewer
+  assignment_counts <- rowsum(otu_counts, assignments)
+  assignment_labels <- rownames(assignment_counts)
+  if (length(assignments) > max_categories) {
+    assignment_order <- order(apply(assignment_counts, 1, sum), decreasing=TRUE)
+    top_assignments <- assignment_order[1:max_categories]
+    assignment_labels[-top_assignments] <- "Other"
+    assignment_counts <- rowsum(assignment_counts, assignment_labels)
+    assignment_labels <- rownames(assignment_counts)
+  }
+  melted_counts <- melt(
+    data.frame(Assignment=assignment_labels, assignment_counts),
+    variable_name="sample_id")
+  ggplot(melted_counts, aes(x=sample_id, y=value, fill=Assignment)) + 
+    geom_bar(position="fill") + 
+    theme_bw() + 
+    scale_x_discrete(name="", expand=c(0, 0)) + 
+    scale_y_continuous(name="Percent composition", formatter="percent", expand=c(0, 0)) +
+    scale_fill_brewer(palette="Set1") + 
+    opts(
+      axis.text.x=(theme_text(angle=90, hjust=1)), 
+      panel.grid.major=theme_blank(),
+      panel.grid_minor=theme_blank(),
+      panel.border=theme_blank())
 }

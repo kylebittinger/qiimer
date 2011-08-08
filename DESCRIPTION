@@ -5,7 +5,7 @@ Date: 2010-11-10
 Title: Work with QIIME Output Files in R
 Author: Kyle Bittinger <kylebittinger@gmail.com>
 Maintainer: Kyle Bittinger <kylebittinger@gmail.com>
-Depends: reshape, plyr, pheatmap, RColorBrewer
+Depends: reshape, plyr, pheatmap, RColorBrewer, ggplot2
 Description: Open QIIME output files in R, compute statistics, and
     create interesting plots from the data.
 URL: http://www.r-project.org
