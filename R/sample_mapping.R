@@ -3,8 +3,8 @@
 #' @param filepath Path to sample mapping file.  The file must conform to the
 #'   QIIME standards, detailed at
 #'   \url{http://qiime.org/documentation/file_formats.html}.
-#'
 #' @return A data frame.
+#' @export
 parse_mapping_file <- function(filepath) {  
   sample_file <- file(filepath, 'rt')
 
@@ -31,10 +31,9 @@ parse_mapping_file <- function(filepath) {
 #' Group samples by common value in metadata column.
 #'
 #' @param sample.mapping Sample mapping data frame.
-#'
 #' @param colname Column name by which to group.
-#'
 #' @return A list of sample names per category.
+#' @export
 group_samples_by_column <- function(sample.mapping, colname) {
   tapply(sample.mapping$SampleID, sample.mapping[[colname]], c)
 }

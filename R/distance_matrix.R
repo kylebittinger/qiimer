@@ -1,8 +1,8 @@
 #' Read a distance matrix file.
 #'
 #' @param filepath Path to distance matrix file.
-#'
 #' @return A matrix of sample-to-sample distances.
+#' @export
 parse_distmat <- function(filepath) {
   distmat_file <- file(filepath, 'rt')
   header_line <- readLines(distmat_file, n=1)
@@ -26,15 +26,13 @@ parse_distmat <- function(filepath) {
 #'
 #' @param distmat A square matrix of sample-sample distances, with sample IDs
 #'   as row and column labels.
-#'
 #' @param sample_ids1 Sample IDs in Group 1
-#'
 #' @param sample_ids2 Sample IDs in Group 2
-#'
 #' @return A list with 4 attributes: between, within, within1, and within2.
 #'   The attributes are assigned to vectors of distances between groups,
 #'   within groups, within the first group, and within the second group,
 #'   respectively.
+#' @export
 group_distances <- function(distmat, sample_ids1, sample_ids2) {
   between <- distmat[sample_ids1, sample_ids2]
   dim(between) <- NULL # Flatten matrix
@@ -59,6 +57,7 @@ group_distances <- function(distmat, sample_ids1, sample_ids2) {
 #' @param xlab Label of x-axis.
 #' @param legend_labels Character vector of length 2, giving labels for the legend.
 #' @param ... passed directly to the plot() function.
+#' @export
 distance_histogram <- function(distmat, sample_ids1, sample_ids2, breaks=12,
   freq=TRUE, col1="blue", col2=rgb(0,1,0,0.5), xlim=c(0,1),
   main="Distance Histogram", xlab="Distance",
