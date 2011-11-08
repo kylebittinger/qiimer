@@ -4,10 +4,10 @@ Maintainer: Kyle Bittinger <kylebittinger@gmail.com>
 Title: Work with QIIME Output Files in R
 Author: Kyle Bittinger <kylebittinger@gmail.com>
 Description: Open QIIME output files in R, compute
-    statistics, and create interesting plots from the data.
-Version: 0.1-0
+    statistics, and create plots from the data.
+Version: 0.2-0
 URL: http://www.r-project.org
-Date: 2010-11-10
+Date: 2011-11-08
 Depends:
     reshape,
     plyr,

@@ -22,24 +22,80 @@ parse_distmat <- function(filepath) {
   distmat
 }
 
-#' Compare within-group to between-group distances.
+#' Create a data frame of distances between groups of samples.
 #'
 #' @param distmat A square matrix of sample-sample distances, with sample IDs
 #'   as row and column labels.
 #' @param sample_ids1 Sample IDs in Group 1
 #' @param sample_ids2 Sample IDs in Group 2
-#' @return A list with 4 attributes: between, within, within1, and within2.
-#'   The attributes are assigned to vectors of distances between groups,
-#'   within groups, within the first group, and within the second group,
-#'   respectively.
+#' @return A data frame with 4 columns. "SampleA" and "SampleB" identify the
+#'   samples compared. "Category" is a factor column indicating the type of
+#'   comparison. Its values are: "Between" for comparisons between sample_ids1
+#'   and sample_ids2, "Within1" for comparisons within sample_ids1, and
+#'   "Within2" for comparisons within sample_ids2. "Distance" contains the
+#'   applicable entry from the distance matrix.
 #' @export
-group_distances <- function(distmat, sample_ids1, sample_ids2) {
-  between <- distmat[sample_ids1, sample_ids2]
-  dim(between) <- NULL # Flatten matrix
-  within1 <- as.vector(as.dist(distmat[sample_ids1, sample_ids1]))
-  within2 <- as.vector(as.dist(distmat[sample_ids2, sample_ids2]))
-  list(between=between, within=c(within1, within2),
-    within1=within1, within2=within2)
+grouped_distances <- function (dm, sample_ids1, sample_ids2) {
+  between <- expand.grid(
+    SampleA=sample_ids1,
+    SampleB=sample_ids2,
+    Category="Between")
+  between$Distance <- apply(between, 1, function (x) {
+    dm[x[1], x[2]]
+  })
+  c1 <- combn(sample_ids1, 2, simplify=FALSE)
+  within1 <- do.call(rbind, lapply(c1, function (x) {
+    data.frame(
+      SampleA=x[1],
+      SampleB=x[2],
+      Distance=dm[x[1], x[2]],
+      Category="Within1")
+  }))
+  c2 <- combn(sample_ids2, 2, simplify=FALSE)
+  within2 <- do.call(rbind, lapply(c2, function (x) {
+    data.frame(
+      SampleA=x[1],
+      SampleB=x[2],
+      Distance=dm[x[1], x[2]],
+      Category="Within2")
+  }))
+  rbind(within1, between, within2)
+}
+
+#' Create a data frame of distances between paired samples
+#'
+#' @param distmat A square matrix of sample-sample distances, with sample IDs
+#'   as row and column labels.
+#' @param sample_ids1 Sample IDs in Group 1.
+#' @param sample_ids2 Sample IDs in Group 2.  The sample IDs in sample_ids2 will
+#'   be paired with the sample IDs in sample_ids1 using cbind().
+#' @return A data frame with 4 columns. "SampleA" and "SampleB" identify the
+#'   samples compared. "Category" is a factor column indicating the type of
+#'   comparison. Its values are: "Between Pairs" for upaired samples and 
+#'   "Within Pairs" for paired samples. "Distance" contains the
+#'   applicable entry from the distance matrix.
+#' @export
+paired_distances <- function(dm, sample_ids1, sample_ids2) {
+  df <- expand.grid(
+    SampleA=sample_ids1,
+    SampleB=sample_ids2)
+
+  # Find row index of paired samples in the data frame
+  # More efficient solutions rely on implementation of expand.grid:
+  #   n <- length(sample_ids1)
+  #   within_pair_idx <- seq(1, n * n, by=(n + 1))
+  pairs <- cbind(sample_ids1, sample_ids2)
+  within_pair_idx <- apply(pairs, 1, function(x) {
+    which((df$SampleA == x[1]) & (df$SampleB == x[2]))
+  })
+  categories <- rep("Between Pairs", length(df$SampleA))
+  categories[within_pair_idx] <- "Within Pairs"
+  df$Category <- categories
+
+  df$Distance <- apply(df, 1, function (x) {
+    dm[x[1], x[2]]
+  })
+  df
 }
 
 #' Plot a histogram of within-group and between-group distances.
