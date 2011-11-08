@@ -35,31 +35,31 @@ parse_distmat <- function(filepath) {
 #'   "Within2" for comparisons within sample_ids2. "Distance" contains the
 #'   applicable entry from the distance matrix.
 #' @export
-grouped_distances <- function (dm, sample_ids1, sample_ids2) {
-  between <- expand.grid(
-    SampleA=sample_ids1,
-    SampleB=sample_ids2,
-    Category="Between")
-  between$Distance <- apply(between, 1, function (x) {
-    dm[x[1], x[2]]
-  })
-  c1 <- combn(sample_ids1, 2, simplify=FALSE)
-  within1 <- do.call(rbind, lapply(c1, function (x) {
-    data.frame(
-      SampleA=x[1],
-      SampleB=x[2],
-      Distance=dm[x[1], x[2]],
-      Category="Within1")
-  }))
-  c2 <- combn(sample_ids2, 2, simplify=FALSE)
-  within2 <- do.call(rbind, lapply(c2, function (x) {
-    data.frame(
-      SampleA=x[1],
-      SampleB=x[2],
-      Distance=dm[x[1], x[2]],
-      Category="Within2")
-  }))
-  rbind(within1, between, within2)
+grouped_distances <- function (distmat, sample_ids1, sample_ids2) {
+  df <- expand.grid(SampleA=sample_ids1, SampleB=sample_ids2)
+  categories <- rep("Between", length(df$SampleA))
+  
+  if (length(sample_ids1) > 1) {
+    combin1 <- combn(sample_ids1, 2, simplify=FALSE)
+    within1 <- do.call(rbind, lapply(combin1, function (x) {
+      data.frame(SampleA=x[1], SampleB=x[2])
+    }))
+    df <- rbind(within1, df)
+    categories <- c(rep("Within1", length(within1$SampleA)), categories)
+  }
+  
+  if (length(sample_ids2) > 1) {
+    combin2 <- combn(sample_ids2, 2, simplify=FALSE)
+    within2 <- do.call(rbind, lapply(combin2, function (x) {
+      data.frame(SampleA=x[1], SampleB=x[2])
+    }))
+    df <- rbind(df, within2)
+    categories <- c(categories, rep("Within2", length(within2$SampleA)))
+  }
+    
+  df$Category <- factor(categories, levels=c("Within1", "Between", "Within2"))
+  df$Distance <- apply(df, 1, function (x) { distmat[x[1], x[2]] })
+  df
 }
 
 #' Create a data frame of distances between paired samples
@@ -75,7 +75,7 @@ grouped_distances <- function (dm, sample_ids1, sample_ids2) {
 #'   "Within Pairs" for paired samples. "Distance" contains the
 #'   applicable entry from the distance matrix.
 #' @export
-paired_distances <- function(dm, sample_ids1, sample_ids2) {
+paired_distances <- function(distmat, sample_ids1, sample_ids2) {
   df <- expand.grid(
     SampleA=sample_ids1,
     SampleB=sample_ids2)
@@ -90,10 +90,10 @@ paired_distances <- function(dm, sample_ids1, sample_ids2) {
   })
   categories <- rep("Between Pairs", length(df$SampleA))
   categories[within_pair_idx] <- "Within Pairs"
-  df$Category <- categories
+  df$Category <- factor(categories, levels=c("Within Pairs", "Between Pairs"))
 
   df$Distance <- apply(df, 1, function (x) {
-    dm[x[1], x[2]]
+    distmat[x[1], x[2]]
   })
   df
 }
