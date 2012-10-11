@@ -3,13 +3,13 @@ License: GPL (>= 2)
 Maintainer: Kyle Bittinger <kylebittinger@gmail.com>
 Title: Work with QIIME Output Files in R
 Author: Kyle Bittinger <kylebittinger@gmail.com>
-Description: Open QIIME output files in R, compute
-    statistics, and create plots from the data.
+Description: Open QIIME output files in R, compute statistics, and
+    create plots from the data.
 Version: 0.2-0
 URL: http://www.r-project.org
 Date: 2011-11-08
 Depends:
-    reshape,
+    reshape2,
     plyr,
     pheatmap,
     RColorBrewer,

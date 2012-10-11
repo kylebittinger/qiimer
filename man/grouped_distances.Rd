@@ -2,7 +2,7 @@
 \alias{grouped_distances}
 \title{Create a data frame of distances between groups of samples.}
 \usage{
-  grouped_distances(dm, sample_ids1, sample_ids2)
+  grouped_distances(distmat, sample_ids1, sample_ids2)
 }
 \arguments{
   \item{distmat}{A square matrix of sample-sample

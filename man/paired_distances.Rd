@@ -2,7 +2,7 @@
 \alias{paired_distances}
 \title{Create a data frame of distances between paired samples}
 \usage{
-  paired_distances(dm, sample_ids1, sample_ids2)
+  paired_distances(distmat, sample_ids1, sample_ids2)
 }
 \arguments{
   \item{distmat}{A square matrix of sample-sample

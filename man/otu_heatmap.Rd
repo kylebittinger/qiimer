@@ -2,9 +2,10 @@
 \alias{otu_heatmap}
 \title{Create a heatmap of OTU counts.}
 \usage{
-  otu_heatmap(otu_counts, assignments, threshold = 0, color
-  = brewer.pal(7, "GnBu"), breaks = c(0, 1e-05, 0.001,
-  0.01, 0.1, 0.2, 0.3, 1), ...)
+  otu_heatmap(otu_counts, assignments, threshold = 0,
+    color = brewer.pal(7, "GnBu"),
+    breaks = c(0, 1e-05, 0.001, 0.01, 0.1, 0.2, 0.3, 1),
+    ...)
 }
 \arguments{
   \item{otu_counts}{A matrix of OTU counts, one row per OTU

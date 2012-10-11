@@ -3,10 +3,11 @@
 \title{Plot a histogram of within-group and between-group distances.}
 \usage{
   distance_histogram(distmat, sample_ids1, sample_ids2,
-  breaks = 12, freq = TRUE, col1 = "blue", col2 = rgb(0, 1,
-  0, 0.5), xlim = c(0, 1), main = "Distance Histogram",
-  xlab = "Distance", legend_labels = c("Within-group",
-  "Between-group"), ...)
+    breaks = 12, freq = TRUE, col1 = "blue",
+    col2 = rgb(0, 1, 0, 0.5), xlim = c(0, 1),
+    main = "Distance Histogram", xlab = "Distance",
+    legend_labels = c("Within-group", "Between-group"),
+    ...)
 }
 \arguments{
   \item{distmat}{A square matrix of sample-sample
