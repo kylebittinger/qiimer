@@ -2,8 +2,8 @@
 \alias{prettyprint_assignments}
 \title{Reformat taxonomic assignments for presentation.}
 \usage{
-  prettyprint_assignments(assignments, sep = ";",
-    prefix_rank = 3, suffix_rank = 6)
+  prettyprint_assignments(assignments, sep = "; ",
+    prefix_rank = 2, suffix_rank = 100)
 }
 \arguments{
   \item{assignments}{A character vector of taxonomic

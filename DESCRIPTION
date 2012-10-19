@@ -12,7 +12,6 @@ Depends:
     reshape2,
     plyr,
     pheatmap,
-    RColorBrewer,
     ggplot2
 Collate:
     'alpha_diversity.R'

@@ -51,7 +51,7 @@ parse_otu_table <- function(filepath, commented=TRUE) {
 #'   prettyprinted assignment.
 #' @return A character vector of reformatted assignments.
 #' @export
-prettyprint_assignments <- function(assignments, sep=";", prefix_rank=3, suffix_rank=6) {
+prettyprint_assignments <- function(assignments, sep="; ", prefix_rank=2, suffix_rank=100) {
   # make list of taxa
   alltaxa <- strsplit(assignments, sep)
   # Phylum and final classification
@@ -66,37 +66,84 @@ prettyprint_assignments <- function(assignments, sep=";", prefix_rank=3, suffix_
   unlist(raw.labels)
 }
 
+#' Standard taxonomic ranks
+#'
+#' @export
+taxonomic_ranks <- c(
+  "Domain", "Kingdom", "Phylum", "Class", "Order", 
+  "Family", "Genus", "Species", "Strain")
+
+#' Parse taxonomic assignment strings
+#'
+#' @param assignments Character vector of taxonomic assignments.
+#' @param split Pattern on which to split taxa in assignment strings.
+#' @param ranks Character vector of taxonomic ranks, used as row names in the
+#'   resultant data frame.
+#' @param ... Additional parameters are passed to the \code{strsplit} function.
+#' @return A data frame of taxonomic assignments.
+#' @export
+parse_assignments <- function(
+  assignments, split="; ", ranks=taxonomic_ranks[2:8], ...) {
+  a <- strsplit(as.character(assignments), split, ...)
+  max_ranks <- max(sapply(a, length))
+  a <- lapply(a, function (x) {
+    fill_length <- max_ranks - length(x)
+    c(x, rep(NA, fill_length))
+  })
+  a <- as.data.frame(do.call(rbind, a))
+  colnames(a) <- ranks[1:ncol(a)]
+  a
+}
+
 #' Create a heatmap of OTU counts.
 #'
 #' @param otu_counts A matrix of OTU counts, one row per OTU and one column 
-#'   per sample
+#'   per sample.
 #' @param assignments A character vector of OTU assignments.  Length should
-#'   match number of rows in otu_counts
+#'   match number of rows in otu_counts.
 #' @param threshold Minimum number of OTU counts necessary for an assignment to
 #'   be included in the heatmap.  Assignment groups are filtered prior to
 #'   calculating the proportions, so these groups are effectively removed from
 #'   the analysis.
-#' @param color Vector of colors to use in the heatmap.  The default value is
-#'   based on a 7-level GnBu sequential color scale from
-#'   \url{http://colorbrewer2.org/}.  This differs from the default value in
-#'   the pheatmap package, which can be found in the pheatmap documentation.
-#' @param breaks Optional sequence of numbers used to map heatmap values to
-#'   colors.  Must cover the range from 0 to 1 and be one element longer than
-#'   the color vector. The default breaks are adapted to show relative
-#'   abundance of major groups, while maintaining some contrast at the
-#'   presence/absence level.  If value is NA (default for pheatmap), then the
-#'   breaks are calculated automatically.
+#' @param color Vector of colors to use in the heatmap.
 #' @param ... Additional arguments are passed to the pheatmap function.
 #' @return A heatmap plot of the proportions of assignments in each sample
 #' @export
 otu_heatmap <- function(otu_counts, assignments, threshold=0,
-  color=brewer.pal(7, "GnBu"), 
-  breaks=c(0, 1e-05, 0.001, 0.01, 0.1, 0.2, 0.3, 1), ...) {
-  assignment_counts <- rowsum(otu_counts, assignments)
+  color=saturated_rainbow(max(colSums(otu_counts))),
+  breaks=seq(0, 1, length.out=length(color) + 1), ...) {
+  # The rowsum() function does not play well with factors, convert to character.
+  assignments <- as.character(assignments)
+  # NA values in assignments will work fine but produce a warning from rowsum().
+  # However, NA values work well for representing unassigned taxa.  We therefore
+  # suppress warnings from this function.
+  assignment_counts <- suppressWarnings(rowsum(otu_counts, assignments))
   rows_to_keep <- apply(assignment_counts, 1, sum) >= threshold
   assignment_fracs <- apply(assignment_counts, 2, function (x) {x / sum(x)}) 
   assignment_fracs <- assignment_fracs[rows_to_keep,]
-  pheatmap(as.matrix(assignment_fracs), breaks=breaks, color=color, ...)
+  pheatmap(as.matrix(assignment_fracs), color=color, breaks=breaks, ...)
+}
+
+#' Saturated rainbow palette
+#'
+#' @param n Length of the palette
+#' @param saturation_limit The fraction of the total palette length over which
+#'   the rainbow extends.  Above this limit, the color will remain the same.
+#' @return A vector of colors.
+#' @export
+saturated_rainbow <- function (n, saturation_limit=0.4) {
+  saturated_len <- floor(n * (1 - saturation_limit))
+  unsaturated_len <- n - saturated_len - 2
+  
+  rainbow_colors <- rev(rainbow(unsaturated_len, start=0, end=0.6))
+  
+  first_color <- rainbow_colors[1]
+  presence_colors <- colorRampPalette(c("#FFFFFFFF", first_color))(2)
+  
+  last_color <- rainbow_colors[length(rainbow_colors)]
+  saturated_colors <- rep(last_color, saturated_len)
+  
+  c(presence_colors, rainbow_colors, saturated_colors)
 }
 
 #' Create a barplot of OTU assignments.
@@ -104,11 +151,14 @@ otu_heatmap <- function(otu_counts, assignments, threshold=0,
 #' @param otu_counts Matrix of OTU counts, one row per OTU and one column 
 #'   per sample
 #' @param assignments A character vector of OTU assignments.  Length should
-#'   match number of rows in otu_counts
+#'   match number of rows in otu_counts.
+#' @param max_categories  Maximum number of different assignments to be 
+#'   displayed in the plot.  The top assignments are determined by total count, 
+#'   and others are labeled "Other."  The default, 8, is the maximum supported 
+#'   by palettes in color brewer.
 #' @return A bar plot of OTU assignments.
 #' @export
-otu_barplot <- function(otu_counts, assignments) {
-  max_categories <- 8 # Max. supported by color brewer
+otu_barplot <- function(otu_counts, assignments, max_categories=8) {
   assignment_counts <- rowsum(otu_counts, assignments)
   assignment_labels <- rownames(assignment_counts)
   if (length(assignments) > max_categories) {
@@ -126,7 +176,6 @@ otu_barplot <- function(otu_counts, assignments) {
     theme_bw() + 
     scale_x_discrete(name="", expand=c(0, 0)) + 
     scale_y_continuous(name="Percent composition", formatter="percent", expand=c(0, 0)) +
-    scale_fill_brewer(palette="Set1") + 
     opts(
       axis.text.x=(theme_text(angle=90, hjust=1)), 
       panel.grid.major=theme_blank(),
