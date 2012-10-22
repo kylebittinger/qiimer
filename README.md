@@ -6,8 +6,10 @@ and (2) creating figures from the resultant data frames.
 
 Dependencies
 ------------
-This package relies on the following files which may not be present in a vanilla analysis environment:
-texi2dvi -- ptmr8t.tfm -- inconsolata.sty
+This package relies on the following files which may not be present in a vanilla analysis environment:  
+texi2dvi  
+ptmr8t.tfm  
+inconsolata.sty
 
 On Debian systems:
 
