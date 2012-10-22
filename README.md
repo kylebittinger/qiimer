@@ -6,7 +6,8 @@ and (2) creating figures from the resultant data frames.
 
 Dependencies
 ------------
-This package relies on the following packages which may not be present in a vanilla analysis environment
+This package relies on the following packages which may not be present in a vanilla analysis environment:
+
 texi2dvi
 Font T1/ptm/m/n/10=ptmr8t - texlive-fonts-recommended
 inconsolata.sty - texlive-fonts-extra
