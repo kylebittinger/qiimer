@@ -4,6 +4,17 @@ qiimer
 This package provides R functions for (1) reading QIIME output files
 and (2) creating figures from the resultant data frames.
 
+Dependencies
+------------
+This package relies on the following files which may not be present in a vanilla analysis environment:  
+texi2dvi  
+ptmr8t.tfm  
+inconsolata.sty
+
+On Debian systems:
+
+    apt-get install texinfo texlive-fonts-recommended texlive-fonts-extra
+
 Installation
 ------------
 
