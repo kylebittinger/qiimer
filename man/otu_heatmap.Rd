@@ -22,6 +22,9 @@
 
   \item{color}{Vector of colors to use in the heatmap.}
 
+  \item{breaks}{Vector of color breaks, one element greater
+  in length than `colors`.}
+
   \item{...}{Additional arguments are passed to the
   pheatmap function.}
 }

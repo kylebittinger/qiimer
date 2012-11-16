@@ -106,6 +106,7 @@ parse_assignments <- function(
 #'   calculating the proportions, so these groups are effectively removed from
 #'   the analysis.
 #' @param color Vector of colors to use in the heatmap.
+#' @param breaks Vector of color breaks, one element greater in length than `colors`.
 #' @param ... Additional arguments are passed to the pheatmap function.
 #' @return A heatmap plot of the proportions of assignments in each sample
 #' @export

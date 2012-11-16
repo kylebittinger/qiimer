@@ -1,3 +1,9 @@
+#' Parse an OTU mapping from QIIME
+#'
+#' @param filepath Path to the OTU mapping.
+#' @param prefix OTU names will be prefixed with this value.
+#' @return A list of sequence identifiers for each OTU.
+#' @export
 parse_otu_mapping <- function(filepath, prefix="") {
   # solution from http://stackoverflow.com/questions/6602881
   # Read in the data to character vector
@@ -14,6 +20,12 @@ parse_otu_mapping <- function(filepath, prefix="") {
   y
 }
 
+#' Create an OTU table
+#' 
+#' @param otus A list of sequence identifiers for each OTU.
+#' @param sample_ids An optional vector of sample IDs to include in the result.
+#' @return A matrix of OTU counts by sample.
+#' @export
 make_otu_table <- function(otus, sample_ids=NULL) {
   sample_vec <- factor(sub("_\\d+$", "", unlist(otus), perl=T))
   otu_vec <- factor(rep(names(otus), sapply(otus, length)))

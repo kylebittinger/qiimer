@@ -18,3 +18,5 @@ Collate:
     'distance_matrix.R'
     'otu_table.R'
     'sample_mapping.R'
+    'blast.R'
+    'otu_mapping.R'
