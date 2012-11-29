@@ -2,7 +2,7 @@
 \name{taxonomic_ranks}
 \alias{taxonomic_ranks}
 \title{Standard taxonomic ranks}
-\format{chr [1:9] "Domain" "Kingdom" "Phylum" "Class" "Order" "Family" "Genus" "Species" ...}
+\format{chr [1:9] "Domain" "Kingdom" "Phylum" "Class" "Order" "Family" ...}
 \usage{
   taxonomic_ranks
 }
