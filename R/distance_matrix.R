@@ -118,7 +118,7 @@ distance_histogram <- function(distmat, sample_ids1, sample_ids2, breaks=12,
   freq=TRUE, col1="blue", col2=rgb(0,1,0,0.5), xlim=c(0,1),
   main="Distance Histogram", xlab="Distance",
   legend_labels=c("Within-group", "Between-group"), ...) {
-  group.distances <- GroupDistances(distmat, sample_ids1, sample_ids2)
+  group.distances <- grouped_distances(distmat, sample_ids1, sample_ids2)
   h1 <- hist(group.distances$within, breaks=breaks, plot=FALSE)
   h2 <- hist(group.distances$between, breaks=breaks, plot=FALSE)
   ymax <- if (freq) max(c(h1$counts, h2$counts)) else max(c(h1$density, h2$density))
