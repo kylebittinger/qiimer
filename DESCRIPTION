@@ -8,11 +8,13 @@ Description: Open QIIME output files in R, compute statistics, and
 Version: 0.3-0
 URL: http://www.r-project.org
 Date: 2012-11-29
-Depends:
+Imports:
     reshape2,
     plyr,
     pheatmap,
     ggplot2
+Suggests:
+    testthat
 Collate:
     'alpha_diversity.R'
     'distance_matrix.R'
@@ -20,3 +22,4 @@ Collate:
     'sample_mapping.R'
     'blast.R'
     'otu_mapping.R'
+    'qiimer.R'
