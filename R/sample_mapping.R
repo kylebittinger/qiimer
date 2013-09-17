@@ -5,36 +5,32 @@
 #'   \url{http://qiime.org/documentation/file_formats.html}.
 #' @return A data frame.
 #' @export
-parse_mapping_file <- function(filepath) {  
+read_qiime_mapping_file <- function(filepath) {  
   sample_file <- file(filepath, 'rt')
 
   header <- readLines(sample_file, n=1)
   header <- sub("^#", "", header)
   cols <- unlist(strsplit(header, "\t"))
 
-  sample_data <- read.table(sample_file,
-                             col.names=cols,
-                             sep="\t",
-                             quote="",
-                             row.names=NULL,
-                             na.strings=c("NA", "na", "Null", "null"))
+  sample_data <- read.table(
+    sample_file,
+    col.names=cols,
+    sep="\t",
+    quote="",
+    row.names=NULL,
+    na.strings=c("NA", "na", "Null", "null"))
   close(sample_file)
 
+  # The SampleID column is often used to extract data from distance matrices 
+  # and OTU tables.  Storing as a character vector facilitates this practice.
   sample_data$SampleID <- as.character(sample_data$SampleID)
+  
+  # Ideally, the Description column should contain a unique free text
+  # description of each sample.  In this case, there is no advantage to using
+  # a factor data type.
   if ('Description' %in% names(sample_data)) {
     sample_data$Description <- as.character(sample_data$Description)
   }
+
   sample_data
 } 
-
-
-#' Group samples by common value in metadata column.
-#'
-#' @param sample.mapping Sample mapping data frame.
-#' @param colname Column name by which to group.
-#' @return A list of sample names per category.
-#' @export
-group_samples_by_column <- function(sample.mapping, colname) {
-  tapply(sample.mapping$SampleID, sample.mapping[[colname]], c)
-}
-
