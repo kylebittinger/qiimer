@@ -1,7 +1,7 @@
 #Full OTU Counts
 #OTU ID	A.1	A.2	B.1	B.2	C.1	Consensus Lineage
-0	5	10	2	0	3	Root;Bacteria
-1	76	23	28	43	56	Root;Bacteria
-2	2	1	0	0	0	Root;Bacteria
-3	637	61	63	77	34	Root;Bacteria;Firmicutes;"Bacilli";"Lactobacillales";"Leuconostocaceae";Weissella
-5	0	0	0	1	0	Root;Bacteria;Firmicutes;"Clostridia";Clostridiales;Peptococcaceae;Peptococcaceae 1
+0	5	10	2	0	3	Bacteria
+1	76	23	28	43	56	Bacteria
+2	2	1	0	0	0	Bacteria; Firmicutes
+3	637	61	63	77	34	Bacteria; Firmicutes; Bacilli; Lactobacillales; Leuconostocaceae; Weissella
+5	0	0	0	1	0	Bacteria; Firmicutes; Clostridia; Clostridiales; Peptococcaceae

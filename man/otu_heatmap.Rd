@@ -3,6 +3,7 @@
 \title{Create a heatmap of OTU counts.}
 \usage{
   otu_heatmap(otu_counts, assignments, threshold = 0,
+    plot = T,
     color = saturated_rainbow(max(colSums(otu_counts))),
     breaks = seq(0, 1, length.out = length(color) + 1),
     ...)
@@ -16,9 +17,12 @@
 
   \item{threshold}{Minimum number of OTU counts necessary
   for an assignment to be included in the heatmap.
-  Assignment groups are filtered prior to calculating the
-  proportions, so these groups are effectively removed from
-  the analysis.}
+  Assignments are filtered after calculating the
+  proportions, so the threshold setting does not affect the
+  display of the remaining OTUs.}
+
+  \item{plot}{If true, display a plot.  If false, just
+  return the computed abundances.}
 
   \item{color}{Vector of colors to use in the heatmap.}
 
@@ -30,7 +34,8 @@
 }
 \value{
   A heatmap plot of the proportions of assignments in each
-  sample
+  sample, and invisibly returns a matrix of the proportions
+  in the plot.
 }
 \description{
   Create a heatmap of OTU counts.

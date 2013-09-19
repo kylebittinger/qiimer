@@ -1,0 +1,27 @@
+\name{split_assignments}
+\alias{split_assignments}
+\title{Split taxonomic assignment strings}
+\usage{
+  split_assignments(assignments,
+    ranks = taxonomic_ranks[2:8], split = "; ", ...)
+}
+\arguments{
+  \item{assignments}{Character vector of taxonomic
+  assignments.}
+
+  \item{ranks}{Character vector of taxonomic ranks, used as
+  column names in the resultant data frame.}
+
+  \item{split}{Pattern on which to split taxa in assignment
+  strings.}
+
+  \item{...}{Additional parameters are passed to the
+  \code{strsplit} function.}
+}
+\value{
+  A data frame of taxonomic assignments.
+}
+\description{
+  Split taxonomic assignment strings
+}
+
