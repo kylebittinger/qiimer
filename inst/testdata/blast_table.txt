@@ -1,0 +1,10 @@
+# BLASTN 2.2.21 [Sep-17-1787]
+# Query: seq01 An example sequence for QIIMER
+# Database: 1.TCA.454Reads.fna
+# Fields: Query id, Subject id, % identity, alignment length, mismatches, gap openings, q. start, q. end, s. start, s. end, e-value, bit score
+seq01	CF6VF	99.16	356	3	0	1	356	361	6	0.0	 691
+seq01	CMPBU	99.15	355	3	0	1	355	361	7	0.0	 689
+seq01	DTA7P	99.15	354	3	0	1	354	361	8	0.0	 687
+seq01	EH424	99.15	354	3	0	1	354	361	8	0.0	 687
+seq01	BZ0U4	98.88	356	4	0	1	356	361	6	0.0	 683
+seq01	DARPH	98.87	354	4	0	1	354	361	8	1e-180	 679

@@ -3,7 +3,7 @@
 #' @param filepath Path to tabular BLAST output file.
 #' @return A data frame of BLAST results.
 #' @export
-parse_blast_table <- function (filepath) {
+read_blast_table <- function (filepath) {
   column_classes <- c(
     "character", "character", "numeric",
     "integer", "integer", "integer",
