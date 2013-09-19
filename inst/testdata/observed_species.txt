@@ -1,0 +1,32 @@
+	sequences per sample	iteration	A.1	A.2	B.1	B.2	C.1
+alpha_rarefaction_10_0.txt	10	0	5.0	8.0	9.0	5.0	7.0
+alpha_rarefaction_10_1.txt	10	1	6.0	9.0	10.0	7.0	6.0
+alpha_rarefaction_10_2.txt	10	2	6.0	7.0	7.0	7.0	8.0
+alpha_rarefaction_10_3.txt	10	3	6.0	8.0	8.0	8.0	7.0
+alpha_rarefaction_10_4.txt	10	4	6.0	9.0	10.0	7.0	7.0
+alpha_rarefaction_10_5.txt	10	5	8.0	9.0	8.0	7.0	9.0
+alpha_rarefaction_10_6.txt	10	6	6.0	7.0	9.0	7.0	6.0
+alpha_rarefaction_10_7.txt	10	7	6.0	7.0	9.0	7.0	8.0
+alpha_rarefaction_10_8.txt	10	8	9.0	8.0	8.0	7.0	7.0
+alpha_rarefaction_10_9.txt	10	9	8.0	6.0	8.0	7.0	7.0
+alpha_rarefaction_207_0.txt	207	0	33.0	40.0	40.0	34.0	37.0
+alpha_rarefaction_207_1.txt	207	1	27.0	44.0	40.0	34.0	31.0
+alpha_rarefaction_207_2.txt	207	2	28.0	41.0	40.0	31.0	27.0
+alpha_rarefaction_207_3.txt	207	3	32.0	43.0	42.0	36.0	28.0
+alpha_rarefaction_207_4.txt	207	4	29.0	40.0	45.0	27.0	34.0
+alpha_rarefaction_207_5.txt	207	5	26.0	43.0	39.0	32.0	32.0
+alpha_rarefaction_207_6.txt	207	6	29.0	39.0	36.0	34.0	31.0
+alpha_rarefaction_207_7.txt	207	7	32.0	43.0	47.0	32.0	38.0
+alpha_rarefaction_207_8.txt	207	8	31.0	46.0	33.0	35.0	31.0
+alpha_rarefaction_207_9.txt	207	9	27.0	42.0	40.0	32.0	30.0
+alpha_rarefaction_404_0.txt	404	0	36.0	60.0	53.0	42.0	36.0
+alpha_rarefaction_404_1.txt	404	1	39.0	62.0	59.0	41.0	38.0
+alpha_rarefaction_404_2.txt	404	2	36.0	51.0	55.0	44.0	35.0
+alpha_rarefaction_404_3.txt	404	3	36.0	57.0	56.0	35.0	39.0
+alpha_rarefaction_404_4.txt	404	4	39.0	53.0	50.0	36.0	41.0
+alpha_rarefaction_404_5.txt	404	5	40.0	60.0	48.0	38.0	39.0
+alpha_rarefaction_404_6.txt	404	6	37.0	50.0	60.0	36.0	43.0
+alpha_rarefaction_404_7.txt	404	7	40.0	54.0	51.0	38.0	39.0
+alpha_rarefaction_404_8.txt	404	8	40.0	57.0	56.0	42.0	44.0
+alpha_rarefaction_404_9.txt	404	9	34.0	56.0	55.0	40.0	38.0
+

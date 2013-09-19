@@ -9,7 +9,9 @@
   frame.}
 }
 \value{
-  A data frame of summary statistics.
+  A data frame of summary statistics, with columns
+  `SampleID`, `sequences_per_sample`, `diversity.mean`, and
+  `diversity.sd`.
 }
 \description{
   Compute summary statistics for collated alpha diversity

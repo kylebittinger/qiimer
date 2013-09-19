@@ -1,30 +1,45 @@
 #' Read a collated alpha diversity table from QIIME.
 #'
-#' @param filepath Path to alpha diversity table file.
-#' @return A data frame representing the table.  The table is returned in
-#'   melted form so sample IDs appear in rows rather than in columns.  The
-#'   column of diversity values is named "diversity".
+#' @param filepath Path to collated alpha diversity file.
+#' @return A data frame with columns `SampleID`, `sequences_per_sample`,
+#'   `iteration`, and `diversity`.
 #' @export
-parse_rarefaction <- function(filepath) {
-  rarefaction_table <- read.table(filepath,
-                           sep="\t",
-                           quote="",
-                           na.strings=c('NA', 'n/a'),
-                           comment.char="#",
-                           header=TRUE)
-  rarefaction_table <- rarefaction_table[2:length(colnames(rarefaction_table))]
-  colnames(rarefaction_table)[1] <- "sequences_per_sample"
-  rarefaction_table <- melt(rarefaction_table, id.vars=c("sequences_per_sample", "iteration"), variable_name="SampleID")
-  colnames(rarefaction_table)[length(colnames(rarefaction_table))] <- "diversity"
-  rarefaction_table
+read_qiime_rarefaction <- function(filepath) {
+  r <- read.table(
+    filepath,
+    sep="\t",
+    quote="",
+    na.strings=c('NA', 'n/a'),
+    comment.char="#",
+    header=TRUE)
+  # Don't need to keep column of file names
+  r <- r[2:length(colnames(r))]
+  # Standardize column of rarefaction depth
+  colnames(r)[1] <- "sequences_per_sample"
+  sample_ids <- colnames(r)[3:length(colnames(r))]
+  r <- reshape(
+    r, 
+    direction="long", 
+    varying=sample_ids, 
+    v.names="diversity", 
+    timevar="SampleID",
+    times=sample_ids)
+  rownames(r) <- 1:nrow(r)
+  r$SampleID <- factor(r$SampleID)
+  r[,c("SampleID", "sequences_per_sample", "iteration", "diversity")]
 }
 
 #' Compute summary statistics for collated alpha diversity tables.
 #'
 #' @param rarefaction_table A collated alpha diversity data frame.
-#' @return A data frame of summary statistics.
+#' @return A data frame of summary statistics, with columns `SampleID`, 
+#'   `sequences_per_sample`, `diversity.mean`, and `diversity.sd`.
 #' @export
 rarefaction_stats <- function(rarefaction_table) {
-  ddply(rarefaction_table, c("sequences_per_sample", "SampleID"),
-        summarise, mean=mean(diversity), sd=sd(diversity))
+  # Aggregating with 2 functions makes the dimensions wonky.  We want
+  # a flat table, so cast result to list and then back to data frame.
+  as.data.frame(as.list(aggregate(
+    diversity ~ SampleID + sequences_per_sample,
+    data=rarefaction_table,
+    FUN=function(x) c(mean=mean(x), sd=sd(x)))))
 }
