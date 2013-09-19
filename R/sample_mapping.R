@@ -3,7 +3,9 @@
 #' @param filepath Path to sample mapping file.  The file must conform to the
 #'   QIIME standards, detailed at
 #'   \url{http://qiime.org/documentation/file_formats.html}.
-#' @return A data frame.
+#' @return A data frame of sample information.  Because the SampleID column is
+#'   so often used to extract data from distance matrices and OTU tables, it 
+#'   is returned as a character vector.
 #' @export
 read_qiime_mapping_file <- function(filepath) {  
   sample_file <- file(filepath, 'rt')
