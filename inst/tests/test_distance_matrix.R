@@ -1,56 +1,40 @@
-context('Paired distances')
-
-sample_names <- c("a", "b", "c", "d")
-distmat <- matrix(
+dm_names <- letters[1:4]
+dm <- matrix(
   c(0, 1, 2, 3,
     1, 0, 4, 5,
     2, 4, 0, 6,
     3, 5, 6, 0), 
   ncol=4, 
-  dimnames=list(sample_names, sample_names))
-p_levels <- c("Within Pairs", "Between Pairs")
+  dimnames=list(dm_names, dm_names))
 
-test_that("paired_distances labels pairs correctly", {
-  pairs <- paired_distances(distmat, c("a", "b"), c("c", "d"))
+context('dist_get')
 
-  category_ac <- with(pairs, Category[(SampleA == "a") & (SampleB == "c")])
-  expect_that(category_ac, equals(factor("Within Pairs", levels=p_levels)))
-
-  category_ad <- with(pairs, Category[(SampleA == "a") & (SampleB == "d")])
-  expect_that(category_ad, equals(factor("Between Pairs", levels=p_levels)))
+test_that('dist_get works with named indices', {
+  expect_equal(
+    dist_get(dm, c("a", "b"), c("c", "d")), c(2, 5))
+  expect_equal(
+    dist_get(dm, c("a", "a", "a"), c("a", "b", "c")), c(0, 1, 2))
 })
 
-test_that("paired_distances works with length-1 sample lists", {
-  pairs <- paired_distances(distmat, "a", "b")
-
-  expect_that(pairs$SampleA, equals(factor("a")))
-  expect_that(pairs$SampleB, equals(factor("b")))
-  expect_that(pairs$Category, equals(factor("Within Pairs", levels=p_levels)))
-  expect_that(pairs$Distance, equals(1))
+test_that('dist_get recycles short vectors', {
+  expect_equal(dist_get(dm, "a", c("a", "b", "c")), c(0, 1, 2))
 })
 
-context("Grouped distances")
-
-g_levels <- c("Within1", "Between", "Within2")
-
-test_that("grouped_distances labels groups correctly", {
-  groups <- grouped_distances(distmat, c("a", "b"), c("c", "d"))
-  
-  category_ab <- with(groups, Category[(SampleA == "a") & (SampleB == "b")])
-  expect_that(category_ab, equals(factor("Within1", levels=g_levels)))
-
-  category_ac <- with(groups, Category[(SampleA == "a") & (SampleB == "c")])
-  expect_that(category_ac, equals(factor("Between", levels=g_levels)))
-  
-  category_cd <- with(groups, Category[(SampleA == "c") & (SampleB == "d")])
-  expect_that(category_cd, equals(factor("Within2", levels=g_levels)))
+test_that('dist_get works with numeric indices', {
+  expect_equal(dist_get(dm, c(1, 3), c(4, 4)), c(3, 6))
 })
 
-test_that("grouped_distances works with length-1 sample lists", {
-  groups <- grouped_distances(distmat, "a", "b")
-  
-  expect_that(groups$SampleA, equals(factor("a")))
-  expect_that(groups$SampleB, equals(factor("b")))
-  expect_that(groups$Category, equals(factor("Between", levels=g_levels)))
-  expect_that(groups$Distance, equals(1))
+context('dist_subset')
+
+test_that('dist_subset returns a dist object', {
+  expect_equal(class(dist_subset(dm, 1:3)), "dist")
+})
+
+context("dist_groups")
+
+test_that("dist_groups labels groups correctly", {
+  dg <- dist_groups(dm, c("A", "A", "B", "B"))
+  expect_equal(levels(dg$Label), c("Between A and B", "Within A", "Within B"))
+  dg <- dist_groups(dm, c("A", "B", "A", "B"))
+  expect_equal(levels(dg$Label), c("Between A and B", "Within A", "Within B"))
 })

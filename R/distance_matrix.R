@@ -3,7 +3,7 @@
 #' @param filepath Path to distance matrix file.
 #' @return A matrix of sample-to-sample distances.
 #' @export
-parse_distmat <- function(filepath) {
+read_qiime_distmat <- function(filepath) {
   distmat_file <- file(filepath, 'rt')
   header_line <- readLines(distmat_file, n=1)
   column_names <- unlist(strsplit(header_line, "\t"))
@@ -44,7 +44,10 @@ dist_get <- function (d, idx1, idx2) {
   }
   i <- pmin(idx1, idx2)
   j <- pmax(idx1, idx2)
-  ifelse(i == j, 0, d[n*(i-1) - i*(i-1)/2 + j-i])
+  # Zeros are eliminated from index vectors
+  # Need to fill with NA if i and j are equal
+  idx <- ifelse(i == j, NA, n*(i-1) - i*(i-1)/2 + j-i)
+  ifelse(i == j, 0, d[idx])
 }
 
 #' Extract parts of a `dist` object.
@@ -82,15 +85,22 @@ dist_groups <- function(d, g) {
   idxs <- combn(dsize, 2)
   idx1 <- idxs[1,]
   idx2 <- idxs[2,]
+  
+  # For the between group labels, we need to keep the groups in factor order.
+  # Here, we record the level of the group to use for the first and second 
+  # parts of the label.
+  level1 <- levels(g)[pmin(as.numeric(g[idx1]), as.numeric(g[idx2]))]
+  level2 <- levels(g)[pmax(as.numeric(g[idx1]), as.numeric(g[idx2]))]
+
   data.frame(
     Item1 = if (is.null(dlabels)) idx1 else dlabels[idx1],
     Item2 = if (is.null(dlabels)) idx2 else dlabels[idx2],
     Group1 = g[idx1],
     Group2 = g[idx2],
     Label = ifelse(
-      g[idx1] == g[idx2], 
-      paste("Within", g[idx1]), 
-      paste("Between", g[idx1], "and", g[idx2])),
+      level1 == level2, 
+      paste("Within", level1), 
+      paste("Between", level1, "and", level2)),
     Distance = dist_get(d, idx1, idx2))
 }
 
