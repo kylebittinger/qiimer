@@ -4,15 +4,15 @@
 #' @param prefix OTU names will be prefixed with this value.
 #' @return A list of sequence identifiers for each OTU.
 #' @export
-parse_otu_mapping <- function(filepath, prefix="") {
-  # solution from http://stackoverflow.com/questions/6602881
+read_qiime_otu_mapping <- function(filepath, prefix="") {
+  # Based on http://stackoverflow.com/questions/6602881
   # Read in the data to character vector
-  x <- scan(filepath, what="", sep="\n")
+  x <- scan(filepath, what="", sep="\n", quiet=T)
   # Separate elements by one or more whitepace
   y <- strsplit(x, "[[:space:]]+")
   # Extract the first vector element and set it as the list element name
   names(y) <- sapply(y, `[[`, 1)
-  #names(y) <- sapply(y, function(x) x[[1]]) # same as above
+  # names(y) <- sapply(y, function(x) x[[1]]) # same as above
   names(y) <- paste(prefix, names(y), sep="")
   # Remove the first vector element from each list element
   y <- lapply(y, `[`, -1)
@@ -39,5 +39,5 @@ make_otu_table <- function(otus, sample_ids=NULL) {
       sample_vec <- factor(sample_vec, levels=sample_ids)
     }
   }
-  table(otu_vec, sample_vec)
+  table(otu_vec, sample_vec, dnn=c("OTU", "SampleID"))
 }
