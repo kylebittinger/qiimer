@@ -8,7 +8,7 @@
   \item{b}{An object of class `biom`, typically created by
   the `read_biom` function in the `biom` library.}
 
-  \item{attrs}{The metadata attribute under which the
+  \item{attr}{The metadata attribute under which the
   taxonomy information can be found for each row item in
   the biom file.}
 }

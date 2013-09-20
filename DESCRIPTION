@@ -10,6 +10,7 @@ URL: http://www.r-project.org
 Date: 2012-11-29
 Imports:
     pheatmap,
+    biom
 Suggests:
     testthat
 Collate:
