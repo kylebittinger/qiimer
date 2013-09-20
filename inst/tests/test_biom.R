@@ -3,8 +3,8 @@ sample_ids <- c("A.1", "A.2", "B.1", "B.2", "C.1")
 
 context('biom_raw_data, dense format')
 
-dense_fp <- system.file("testdata", "otu_table_dense.biom", package="qiimer")
-db <- read_biom(dense_fp)
+db <- read_biom(
+  system.file("testdata", "otu_table_dense.biom", package="qiimer"))
 
 test_that("OTU IDs are parsed correctly", {
   expect_equal(rownames(biom_raw_data(db)), otu_ids)
@@ -25,8 +25,8 @@ test_that("OTU counts are correct", {
 
 context('biom_raw_data, sparse format')
 
-sparse_fp <- system.file("testdata", "otu_table_sparse.biom", package="qiimer")
-sb <- read_biom(sparse_fp)
+sb <- read_biom(
+  system.file("testdata", "otu_table_sparse.biom", package="qiimer"))
 
 test_that("OTU IDs are present", {
   expect_equal(levels(biom_raw_data(sb)$OTU), otu_ids)

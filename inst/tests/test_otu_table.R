@@ -1,6 +1,7 @@
 context('read_qiime_otu_table')
 
-o <- read_qiime_otu_table('../testdata/otu_table.txt')
+o <- read_qiime_otu_table(
+  system.file("testdata", "otu_table.txt", package="qiimer"))
 
 test_that("OTU IDs are parsed correctly", {
   expect_equal(o$otu_ids, c("0", "1", "2", "3", "5"))

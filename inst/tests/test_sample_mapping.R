@@ -1,6 +1,7 @@
 context('read_qiime_mapping_file')
 
-s <- read_qiime_mapping_file('../testdata/sample_map.txt')
+s <- read_qiime_mapping_file(
+  system.file("testdata", "sample_map.txt", package="qiimer"))
 
 test_that("Column names are parsed correctly", {
   expect_equal(colnames(s), c(

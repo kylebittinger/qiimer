@@ -1,6 +1,7 @@
 context('read_blast_table')
 
-b <- read_blast_table('../testdata/blast_table.txt')
+b <- read_blast_table(
+  system.file("testdata", "blast_table.txt", package="qiimer"))
 
 test_that("Query IDs are parsed correctly", {
   expect_equal(b$query_id, rep("seq01", 6))

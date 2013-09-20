@@ -1,6 +1,7 @@
 context('read_qiime_otu_mapping')
 
-m <- read_qiime_otu_mapping('../testdata/otu_mapping.txt')
+m <- read_qiime_otu_mapping(
+  system.file("testdata", "otu_mapping.txt", package="qiimer"))
 
 test_that("OTU IDs are parsed correctly", {
   expect_equal(names(m), c("0", "1", "2", "3", "5"))
