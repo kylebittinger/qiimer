@@ -1,6 +1,6 @@
 \name{saturated_rainbow}
 \alias{saturated_rainbow}
-\title{Saturated rainbow palette}
+\title{Saturated rainbow palette.}
 \usage{
   saturated_rainbow(n, saturation_limit = 0.4)
 }
@@ -15,6 +15,6 @@
   A vector of colors.
 }
 \description{
-  Saturated rainbow palette
+  Saturated rainbow palette.
 }
 

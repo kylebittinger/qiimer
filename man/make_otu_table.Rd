@@ -1,6 +1,6 @@
 \name{make_otu_table}
 \alias{make_otu_table}
-\title{Create an OTU table}
+\title{Create an OTU table.}
 \usage{
   make_otu_table(otus, sample_ids = NULL)
 }
@@ -14,6 +14,6 @@
   A matrix of OTU counts by sample.
 }
 \description{
-  Create an OTU table
+  Create an OTU table.
 }
 

@@ -1,6 +1,6 @@
 \name{read_blast_table}
 \alias{read_blast_table}
-\title{Parse tabular output from BLAST}
+\title{Parse tabular output from BLAST.}
 \usage{
   read_blast_table(filepath)
 }
@@ -11,6 +11,6 @@
   A data frame of BLAST results.
 }
 \description{
-  Parse tabular output from BLAST
+  Parse tabular output from BLAST.
 }
 

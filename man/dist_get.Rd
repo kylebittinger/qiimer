@@ -5,10 +5,13 @@
   dist_get(d, idx1, idx2)
 }
 \arguments{
-  \item{d}{An object of class `dist`.}
+  \item{d}{A distance matrix object of class `dist`.}
 
   \item{idx1,idx2}{Indicies specifying the distances to
   extract.}
+}
+\value{
+  A vector of distances.
 }
 \description{
   Retrieve distances from a `dist` object.

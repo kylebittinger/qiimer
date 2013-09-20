@@ -5,10 +5,7 @@
   dist_groups(d, g)
 }
 \arguments{
-  \item{d}{An object of class `dist`, representing a
-  pairwise distance matrix.  A square matrix can also be
-  passed; it will be converted to a `dist` object using
-  `as.dist`.}
+  \item{d}{A distance matrix object of class `dist`.}
 
   \item{g}{A factor representing the groups of objects in
   the matrix.}

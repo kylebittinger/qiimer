@@ -30,7 +30,7 @@ biom_raw_data <- function (b) {
 #' Extract taxonomy info from a biom object.
 #' @param b An object of class `biom`, typically created by the `read_biom`
 #'   function in the `biom` library.
-#' @param attrs The metadata attribute under which the taxonomy information 
+#' @param attr The metadata attribute under which the taxonomy information 
 #'   can be found for each row item in the biom file.
 #' @return A list of character vectors, one per row.
 #' @export

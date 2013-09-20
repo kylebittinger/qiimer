@@ -102,4 +102,3 @@ dist_groups <- function(d, g) {
       paste("Between", level1, "and", level2)),
     Distance = dist_get(d, idx1, idx2))
 }
-

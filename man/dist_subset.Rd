@@ -5,13 +5,13 @@
   dist_subset(d, idx)
 }
 \arguments{
-  \item{d}{An object of class `dist`.}
+  \item{d}{A distance matrix object of class `dist`.}
 
   \item{idx}{Indices specifying the subset of distances to
   extract.}
 }
 \value{
-  An object of class `dist`
+  A distance matrix.
 }
 \description{
   Extract parts of a `dist` object.

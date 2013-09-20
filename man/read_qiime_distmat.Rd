@@ -8,7 +8,7 @@
   \item{filepath}{Path to distance matrix file.}
 }
 \value{
-  A matrix of sample-to-sample distances.
+  A distance matrix.
 }
 \description{
   Read a QIIME distance matrix file.
