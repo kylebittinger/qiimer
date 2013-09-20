@@ -1,30 +1,15 @@
 qiimer
 ======
 
-This package provides R functions for (1) reading QIIME output files
-and (2) creating figures from the resultant data frames.
+The qiimer package provides R functions to read QIIME output files and create
+figures.
 
-Dependencies
-------------
-This package relies on the following files which may not be present in a vanilla analysis environment:  
-texi2dvi  
-ptmr8t.tfm  
-inconsolata.sty
+Types of files covered:
+* "Classic" format OTU tables
+* Distance matrices
+* Metadata mapping files
+* OTU mapping files (OTU ID to sequence ID)
+* Rarefied alpha diversity tables
 
-On Debian systems:
-
-    apt-get install texinfo texlive-fonts-recommended texlive-fonts-extra
-
-Installation
-------------
-
-To install this library, type
-
-    R CMD INSTALL /path/to/qiimer
-
-where "/path/to/qiimer" is the path of the qiimer package directory
-(the directory containing this file).
-
-We have not set up a CRAN-style repository yet, so we are not yet able
-to support install.packages() from the R shell.
-
+Also included: convenience functions for BLAST tables, distance matrix 
+objects, and biom-format OTU tables imported via the `biom` library.
