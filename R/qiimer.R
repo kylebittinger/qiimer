@@ -2,5 +2,5 @@
 #' 
 #' @name qiimer
 #' @docType package
-#' @import pheatmap biom
+#' @import pheatmap
 NULL

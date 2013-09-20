@@ -1,3 +1,23 @@
+context('read_qiime_distmat')
+
+d <- read_qiime_distmat(
+  system.file("testdata", "distmat.txt", package="qiimer"))
+
+test_that("A dist object is produced", {
+  expect_is(d, "dist")
+})
+
+test_that("Labels are correct", {
+  expect_equal(attr(d, "Labels"), c(
+    "A1002.YHNS", "A1005.HELV", "A1006.KQJA", "A1012.AOPN", "A1013.FFXK", 
+    "A1015.FREJ", "A1016.BWDG", "A1038.SYHH", "A1043.BVIY", "H2O.1", 
+    "SG.H2O.2"))
+})
+
+test_that("Values are correct", {
+  expect_equal(d[1], 0.8749526)
+})
+
 dm_names <- letters[1:4]
 dm <- matrix(
   c(0, 1, 2, 3,

@@ -19,7 +19,7 @@ read_qiime_distmat <- function(filepath) {
     colClasses=column_classes, sep="\t", quote=""))
 
   close(distmat_file)
-  distmat
+  as.dist(distmat)
 }
 
 #' Retrieve distances from a `dist` object.

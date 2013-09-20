@@ -9,10 +9,10 @@ Version: 0.9.0
 URL: http://www.r-project.org
 Date: 2012-11-29
 Imports:
-    pheatmap,
-    biom
+    pheatmap
 Suggests:
-    testthat
+    testthat,
+    biom
 Collate:
     'alpha_diversity.R'
     'distance_matrix.R'
