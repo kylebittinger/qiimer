@@ -1,5 +1,6 @@
 #' Extract biom data in raw form.
-#' @param b An object of class `biom`.
+#' @param b An object of class `biom`, typically created by the `read_biom`
+#'   function in the `biom` library.
 #' @return For sparse biom objects, returns a data frame.
 #'   For dense biom objects, returns a matrix.
 #' @export
@@ -27,11 +28,14 @@ biom_raw_data <- function (b) {
 }
 
 #' Extract taxonomy info from a biom object.
-#' @param b An object of class `biom`.
+#' @param b An object of class `biom`, typically created by the `read_biom`
+#'   function in the `biom` library.
+#' @param attrs The metadata attribute under which the taxonomy information 
+#'   can be found for each row item in the biom file.
 #' @return A list of character vectors, one per row.
 #' @export
-biom_taxonomy <- function (b) {
-  bt <- sapply(b$rows, function (x) x$metadata$taxonomy)
+biom_taxonomy <- function (b, attr="taxonomy") {
+  bt <- sapply(b$rows, `[[`, c("metadata", attr))
   names(bt) <- sapply(b$rows, `[[`, "id")
   bt
 }

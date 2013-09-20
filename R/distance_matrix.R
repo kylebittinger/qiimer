@@ -1,7 +1,7 @@
 #' Read a QIIME distance matrix file.
 #'
 #' @param filepath Path to distance matrix file.
-#' @return A matrix of sample-to-sample distances.
+#' @return A distance matrix.
 #' @export
 read_qiime_distmat <- function(filepath) {
   distmat_file <- file(filepath, 'rt')
@@ -24,8 +24,9 @@ read_qiime_distmat <- function(filepath) {
 
 #' Retrieve distances from a `dist` object.
 #' 
-#' @param d An object of class `dist`.
+#' @param d A distance matrix object of class `dist`.
 #' @param idx1,idx2 Indicies specifying the distances to extract.
+#' @return A vector of distances.
 #' @export
 dist_get <- function (d, idx1, idx2) {
   d <- as.dist(d)
@@ -52,9 +53,9 @@ dist_get <- function (d, idx1, idx2) {
 
 #' Extract parts of a `dist` object.
 #' 
-#' @param d An object of class `dist`.
+#' @param d A distance matrix object of class `dist`.
 #' @param idx Indices specifying the subset of distances to extract.
-#' @return An object of class `dist`
+#' @return A distance matrix.
 #' @export
 dist_subset <- function (d, idx) {
   as.dist(as.matrix(d)[idx, idx])
@@ -62,9 +63,7 @@ dist_subset <- function (d, idx) {
 
 #' Create a data frame of distances between groups of items.
 #'
-#' @param d An object of class `dist`, representing a pairwise distance matrix.
-#'   A square matrix can also be passed; it will be converted to a `dist` 
-#'   object using `as.dist`.
+#' @param d A distance matrix object of class `dist`.
 #' @param g A factor representing the groups of objects in the matrix.
 #' @return A data frame with 6 columns. "Item1" and "Item2" identify the
 #'   items compared, using the label if available. Likewise, "Group1" and 

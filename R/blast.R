@@ -1,4 +1,4 @@
-#' Parse tabular output from BLAST
+#' Parse tabular output from BLAST.
 #'
 #' @param filepath Path to tabular BLAST output file.
 #' @return A data frame of BLAST results.

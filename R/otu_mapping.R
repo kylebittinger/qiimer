@@ -1,6 +1,6 @@
-#' Parse an OTU mapping from QIIME
+#' Parse an OTU mapping file from QIIME.
 #'
-#' @param filepath Path to the OTU mapping.
+#' @param filepath Path to the OTU mapping file.
 #' @param prefix OTU names will be prefixed with this value.
 #' @return A list of sequence identifiers for each OTU.
 #' @export
@@ -20,7 +20,7 @@ read_qiime_otu_mapping <- function(filepath, prefix="") {
   y
 }
 
-#' Create an OTU table
+#' Create an OTU table.
 #' 
 #' @param otus A list of sequence identifiers for each OTU.
 #' @param sample_ids An optional vector of sample IDs to include in the result.

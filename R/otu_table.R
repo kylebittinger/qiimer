@@ -60,7 +60,7 @@ read_qiime_otu_table <- function(filepath, commented=TRUE) {
     sample_ids=sample_ids, otu_ids=otu_ids, counts=counts, metadata=metadata)
 }
 
-#' Standard taxonomic ranks
+#' Standard taxonomic ranks.
 #'
 #' @export
 taxonomic_ranks <- c(
@@ -153,7 +153,7 @@ otu_heatmap <- function(otu_counts, assignments, threshold=0, plot=T,
   invisible(assignment_fracs)
 }
 
-#' Saturated rainbow palette
+#' Saturated rainbow palette.
 #'
 #' @param n Length of the palette
 #' @param saturation_limit The fraction of the total palette length over which
