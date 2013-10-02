@@ -32,10 +32,7 @@ read_qiime_distmat <- function(filepath) {
 #' data(relmbeta_dist)
 #' dist_get(relmbeta_dist, "A1", "A2")
 #' dist_get(relmbeta_dist, "A1", c("A2", "A3", "A4", "A5"))
-#' dist_get(
-#'   relmbeta_dist, 
-#'   c("A1", "A2", "A3", "A4", "A5"),
-#'   c("B1", "B2", "B3", "B4", "B5"))
+#' dist_get(relmbeta_dist, c("A1", "A2", "A3"), c("B1", "B2", "B3"))
 dist_get <- function (d, idx1, idx2) {
   d <- as.dist(d)
   if (is.character(idx1)) {
