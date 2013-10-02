@@ -1,0 +1,23 @@
+\docType{data}
+\name{relmbeta_assignments}
+\alias{relmbeta_assignments}
+\title{Taxonomic assignments from murine gut microbiome}
+\source{
+  Hildebrandt et al. High-fat diet determines the
+  composition of the murine gut microbiome independently of
+  obesity. \emph{Gastroenterology} \strong{137}, 1716
+  (2009).
+}
+\description{
+  The character vector \code{relmbeta_assignments} contains
+  taxonomic assignments for each OTU in the study.
+}
+\details{
+  The \code{\link{relmbeta}} documentation provides an
+  overview of the study.
+}
+\seealso{
+  \code{\link{relmbeta}}
+}
+\keyword{datasets}
+

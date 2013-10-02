@@ -1,0 +1,25 @@
+\docType{data}
+\name{relmbeta_counts}
+\alias{relmbeta_counts}
+\title{OTU counts from murine gut microbiome}
+\source{
+  Hildebrandt et al. High-fat diet determines the
+  composition of the murine gut microbiome independently of
+  obesity. \emph{Gastroenterology} \strong{137}, 1716
+  (2009).
+}
+\description{
+  The matrix \code{relmbeta_counts} contains the number of
+  reads observed in each OTU, after rarefaction to 500
+  reads per sample. OTUs are listed in the rows and samples
+  are listed in the columns.
+}
+\details{
+  The \code{\link{relmbeta}} documentation provides an
+  overview of the study.
+}
+\seealso{
+  \code{\link{relmbeta}}
+}
+\keyword{datasets}
+

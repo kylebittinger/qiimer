@@ -24,40 +24,106 @@ NULL
 #' per sample.  The unweighted UniFrac distance was then computed for each pair 
 #' of samples.
 #' 
-#' The \code{relmbeta} dataset contains a series of related data objects.
-#' \itemize{
-#'   \item The \code{relmbeta} data frame lists the sample IDs, genotypes, 
-#'   and dietary assignments for the mice.
-#'   
-#'   \item The matrix \code{relmbeta_counts} contains the number of reads 
-#'   observed in each OTU, after rarefaction to 500 reads per sample.  
-#'   OTUs are listed in the rows and samples are listed in the columns.
-#'   
-#'   \item \code{relmbeta_dist} is an object of class \code{"dist"}, containing
-#'   the unweighted UniFrac distances between samples.
-#'   
-#'   \item \code{relmbeta_alpha} is a data frame containing the shannon 
-#'   diversity for each sample at a level of 10-500 sequences per sample.
-#'   
-#'   \item The character vector \code{relmbeta_assignments} contains taxonomic
-#'   assignments for each OTU in the study.
-#'
-#'   \item The \code{relmbeta_biom} object is a representation of the BIOM file
-#'   produced by QIIME.  The \code{biom} package must be installed to use this
-#'   object.
-#' }
+#' The \code{relmbeta} data frame lists the sample IDs, genotypes, and dietary 
+#' assignments for the mice.
 #' 
 #' @name relmbeta
 #' @docType data
 #' @keywords datasets
-#' @format \code{relmbeta} is a data frame with 20 rows and 3 variables.
-#'   \code{relmbeta_counts} is a matrix with 337 rows and 20 columns.
-#'   \code{relmbeta_dist} is a \code{"dist"} object with 20 rows.
-#'   \code{relmbeta_alpha} is a data frame with 2200 rows and 4 columns.
-#'   \code{relmbeta_assignments} is a character vector of lengh 337.
-#'   \code{relmbeta_biom} is a \code{"biom"} object.
+#' @format A data frame with 20 rows and 3 columns.
 #' @source Hildebrandt et al. High-fat diet determines the composition of the 
 #'   murine gut microbiome independently of obesity. \emph{Gastroenterology} 
 #'   \strong{137}, 1716 (2009).
 NULL
 
+
+#' OTU counts from murine gut microbiome
+#' 
+#' The matrix \code{relmbeta_counts} contains the number of reads 
+#' observed in each OTU, after rarefaction to 500 reads per sample.  
+#' OTUs are listed in the rows and samples are listed in the columns.
+#'
+#' The \code{\link{relmbeta}} documentation provides an overview of the study.
+#' 
+#' @name relmbeta_counts
+#' @docType data
+#' @keywords datasets
+#' @format An integer matrix with 337 rows and 20 columns.
+#' @seealso \code{\link{relmbeta}}
+#' @source Hildebrandt et al. High-fat diet determines the composition of the 
+#'   murine gut microbiome independently of obesity. \emph{Gastroenterology} 
+#'   \strong{137}, 1716 (2009).
+NULL
+
+
+#' Unweighted UniFrac distances from murine gut microbiome
+#' 
+#' \code{relmbeta_dist} is an object of class \code{"dist"}, containing
+#' the unweighted UniFrac distances between samples.
+#'
+#' The \code{\link{relmbeta}} documentation provides an overview of the study.
+#' 
+#' @name relmbeta_dist
+#' @docType data
+#' @keywords datasets
+#' @format An object of class \code{"dist"}.
+#' @seealso \code{\link{relmbeta}}
+#' @source Hildebrandt et al. High-fat diet determines the composition of the 
+#'   murine gut microbiome independently of obesity. \emph{Gastroenterology} 
+#'   \strong{137}, 1716 (2009).
+NULL
+
+
+#' Shannon diversity measurements from murine gut microbiome
+#' 
+#' \code{relmbeta_alpha} is a data frame containing Shannon diversity 
+#' (base 2) at a level of 10-500 sequences per sample.
+#'
+#' The \code{\link{relmbeta}} documentation provides an overview of the study.
+#' 
+#' @name relmbeta_alpha
+#' @docType data
+#' @keywords datasets
+#' @format A data frame with 2200 rows and 4 columns.
+#' @seealso \code{\link{relmbeta}}
+#' @source Hildebrandt et al. High-fat diet determines the composition of the 
+#'   murine gut microbiome independently of obesity. \emph{Gastroenterology} 
+#'   \strong{137}, 1716 (2009).
+NULL
+
+
+#' Taxonomic assignments from murine gut microbiome
+#' 
+#' The character vector \code{relmbeta_assignments} contains taxonomic
+#' assignments for each OTU in the study.
+#'
+#' The \code{\link{relmbeta}} documentation provides an overview of the study.
+#' 
+#' @name relmbeta_assignments
+#' @docType data
+#' @keywords datasets
+#' @format A character vector with 337 elements.
+#' @seealso \code{\link{relmbeta}}
+#' @source Hildebrandt et al. High-fat diet determines the composition of the 
+#'   murine gut microbiome independently of obesity. \emph{Gastroenterology} 
+#'   \strong{137}, 1716 (2009).
+NULL
+
+
+#' BIOM format object from murine gut microbiome
+#' 
+#' The \code{relmbeta_biom} object is a representation of the BIOM file
+#' produced by QIIME.  The \code{biom} package must be installed to use this
+#' object.
+#'
+#' The \code{\link{relmbeta}} documentation provides an overview of the study.
+#' 
+#' @name relmbeta_biom
+#' @docType data
+#' @keywords datasets
+#' @format A \code{"biom"} object with 227 rows and 20 columns.
+#' @seealso \code{\link{relmbeta}}
+#' @source Hildebrandt et al. High-fat diet determines the composition of the 
+#'   murine gut microbiome independently of obesity. \emph{Gastroenterology} 
+#'   \strong{137}, 1716 (2009).
+NULL
