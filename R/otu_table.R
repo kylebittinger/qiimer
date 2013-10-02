@@ -157,10 +157,11 @@ simplify_assignments <- function(assignments_df, rank1="Phylum",
 #' otu_heatmap(relmbeta_counts, a, threshold=10)
 #' otu_heatmap(
 #'   relmbeta_counts, a, threshold=10, 
-#'   cluster_rows=F, cluster_cols=F, cellwidth=12, cellheight=12)
+#'   cluster_rows=FALSE, cluster_cols=FALSE, 
+#'   cellwidth=12, cellheight=12)
 #' }
 #' 
-#' heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=F)
+#' heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=FALSE)
 #' head(heatmap_data)
 otu_heatmap <- function(otu_counts, assignments, threshold=0, plot=T,
   color=saturated_rainbow(max(colSums(otu_counts)) + 1),
