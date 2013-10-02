@@ -2,8 +2,8 @@
 \alias{split_assignments}
 \title{Split taxonomic assignment strings}
 \usage{
-  split_assignments(assignments,
-    ranks = taxonomic_ranks[2:8], split = "; ", ...)
+  split_assignments(assignments, ranks = taxonomic_ranks,
+    split = "; ", ...)
 }
 \arguments{
   \item{assignments}{Character vector of taxonomic
@@ -23,5 +23,13 @@
 }
 \description{
   Split taxonomic assignment strings
+}
+\examples{
+data(relmbeta_assignments)
+a <- split_assignments(relmbeta_assignments)
+head(a)
+}
+\seealso{
+  \code{\link{taxonomic_ranks}}
 }
 

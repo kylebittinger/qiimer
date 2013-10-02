@@ -28,7 +28,7 @@ test_that('assignments are split into named ranks', {
 })
 
 test_that('expected ranks are present', {
-  expect_equal(colnames(split_assignments(a)), taxonomic_ranks[2:7])
+  expect_equal(colnames(split_assignments(a)), taxonomic_ranks[1:6])
 })
 
 test_that('assignment for OTU 3 is split correctly', {

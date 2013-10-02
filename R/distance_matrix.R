@@ -1,6 +1,6 @@
 #' Read a QIIME distance matrix file.
 #'
-#' @param filepath Path to distance matrix file.
+#' @param filepath Path to QIIME distance matrix file.
 #' @return A distance matrix.
 #' @export
 read_qiime_distmat <- function(filepath) {
@@ -22,12 +22,19 @@ read_qiime_distmat <- function(filepath) {
   as.dist(distmat)
 }
 
-#' Retrieve distances from a `dist` object.
+#' Retrieve distances from a `"dist"` object.
 #' 
-#' @param d A distance matrix object of class `dist`.
+#' @param d A distance matrix object of class `"dist"`.
 #' @param idx1,idx2 Indicies specifying the distances to extract.
 #' @return A vector of distances.
 #' @export
+#' @examples
+#' data(relmbeta_dist)
+#' dist_get(relmbeta_dist, "A1", "A2")
+#' dist_get(relmbeta_dist, "A1", c("A2", "A3", "A4", "A5"))
+#' a <- paste("A", 1:5, sep="")
+#' b <- paste("B", 1:5, sep="")
+#' dist_get(relmbeta_dist, a, b)
 dist_get <- function (d, idx1, idx2) {
   d <- as.dist(d)
   if (is.character(idx1)) {
@@ -51,26 +58,33 @@ dist_get <- function (d, idx1, idx2) {
   ifelse(i == j, 0, d[idx])
 }
 
-#' Extract parts of a `dist` object.
+#' Extract parts of a `"dist"` object.
 #' 
-#' @param d A distance matrix object of class `dist`.
+#' @param d A distance matrix object of class `"dist"`.
 #' @param idx Indices specifying the subset of distances to extract.
 #' @return A distance matrix.
 #' @export
+#' @examples
+#' data(relmbeta_dist)
+#' dist_subset(relmbeta_dist, c("A1", "A2", "A3", "A4", "A5"))
 dist_subset <- function (d, idx) {
   as.dist(as.matrix(d)[idx, idx])
 }
 
 #' Create a data frame of distances between groups of items.
 #'
-#' @param d A distance matrix object of class `dist`.
-#' @param g A factor representing the groups of objects in the matrix.
+#' @param d A distance matrix object of class `"dist"`.
+#' @param g A factor representing the groups of objects in `d`.
 #' @return A data frame with 6 columns. "Item1" and "Item2" identify the
 #'   items compared, using the label if available. Likewise, "Group1" and 
 #'   "Group2" identify the groups of the items. "Label" is a factor giving a
 #'   convenient label for the type of comparison. Finally, "Distance" contains
 #'   the distance of interest.
 #' @export
+#' @examples
+#' data(relmbeta_dist)
+#' data(relmbeta)
+#' dist_groups(relmbeta_dist, relmbeta$Diet)
 dist_groups <- function(d, g) {
   d <- as.dist(d)
   g <- as.factor(g)

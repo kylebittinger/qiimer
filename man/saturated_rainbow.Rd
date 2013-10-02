@@ -15,6 +15,30 @@
   A vector of colors.
 }
 \description{
-  Saturated rainbow palette.
+  This palette is specially designed for data consisting of
+  counts.  It is intended to show both presence/absence and
+  relative proportion in the same plot.  For data
+  containing N counts in the largest sample, the saturated
+  rainbow palette should be created with length N + 1.
+}
+\details{
+  The first element of the palette is white, indicating
+  zero counts.  The second element is dark blue, indicating
+  one or very few counts.  As the proportion increases
+  within a sample, the palette transitions from blue to
+  green, yellow, orange, and finally red.
+
+  The function defines a saturation limit, above which the
+  color remains bright red.  The saturation limit is set to
+  40% by default, to highlight items with the largest
+  relative proportion in a sample.  The default value seems
+  to work well for a wide range of circumstances -- it
+  allows items that are strongly dominant in a sample to be
+  identified across the plot.  Ideally, the total number of
+  red squares should be kept low, never more than one per
+  sample.
+}
+\examples{
+saturated_rainbow(10)
 }
 

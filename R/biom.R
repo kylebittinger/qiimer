@@ -1,9 +1,14 @@
 #' Extract biom data in raw form.
-#' @param b An object of class `biom`, typically created by the `read_biom`
-#'   function in the `biom` library.
+#' @param b An object of class \code{"biom"}, typically created by the 
+#'   \code{read_biom} function in the \code{biom} library.
 #' @return For sparse biom objects, returns a data frame.
 #'   For dense biom objects, returns a matrix.
 #' @export
+#' @examples
+#' \dontrun{
+#' data(relmbeta_biom)
+#' head(biom_raw_data(relmbeta_biom))
+#' }
 biom_raw_data <- function (b) {
   # Retrieve the first word from the biom type
   # One of: OTU, Taxon, Gene, Function, Ortholog, Pathway, Metabolite
@@ -28,12 +33,17 @@ biom_raw_data <- function (b) {
 }
 
 #' Extract taxonomy info from a biom object.
-#' @param b An object of class `biom`, typically created by the `read_biom`
-#'   function in the `biom` library.
+#' @param b An object of class \code{"biom"}, typically created by the
+#'   \code{read_biom} function in the `biom` library.
 #' @param attr The metadata attribute under which the taxonomy information 
 #'   can be found for each row item in the biom file.
 #' @return A list of character vectors, one per row.
 #' @export
+#' @examples
+#' \dontrun{
+#' data(relmbeta_biom)
+#' head(biom_taxonomy(relmbeta_biom))
+#' }
 biom_taxonomy <- function (b, attr="taxonomy") {
   bt <- sapply(b$rows, `[[`, c("metadata", attr))
   names(bt) <- sapply(b$rows, `[[`, "id")

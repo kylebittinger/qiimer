@@ -4,7 +4,7 @@
 \usage{
   otu_heatmap(otu_counts, assignments, threshold = 0,
     plot = T,
-    color = saturated_rainbow(max(colSums(otu_counts))),
+    color = saturated_rainbow(max(colSums(otu_counts)) + 1),
     breaks = seq(0, 1, length.out = length(color) + 1),
     ...)
 }
@@ -39,5 +39,23 @@
 }
 \description{
   Create a heatmap of OTU counts.
+}
+\examples{
+data(relmbeta_assignments)
+data(relmbeta_counts)
+a <- simplify_assignments(split_assignments(relmbeta_assignments))
+
+\dontrun{
+otu_heatmap(relmbeta_counts, a, threshold=10)
+otu_heatmap(
+  relmbeta_counts, a, threshold=10,
+  cluster_rows=F, cluster_cols=F, cellwidth=12, cellheight=12)
+}
+
+heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=F)
+head(heatmap_data)
+}
+\seealso{
+  \code{\link{pheatmap}}, \code{\link{saturated_rainbow}}
 }
 

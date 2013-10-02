@@ -22,7 +22,7 @@ read_qiime_otu_mapping <- function(filepath, prefix="") {
 
 #' Create an OTU table.
 #' 
-#' @param otus A list of sequence identifiers for each OTU.
+#' @param otus A list of QIIME-format sequence identifiers for each OTU.
 #' @param sample_ids An optional vector of sample IDs to include in the result.
 #' @return A matrix of OTU counts by sample.
 #' @export

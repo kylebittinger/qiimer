@@ -64,8 +64,8 @@ read_qiime_otu_table <- function(filepath, commented=TRUE) {
 #'
 #' @export
 taxonomic_ranks <- c(
-  "Domain", "Kingdom", "Phylum", "Class", "Order", 
-  "Family", "Genus", "Species", "Strain")
+  "Kingdom", "Phylum", "Class", "Order", 
+  "Family", "Genus", "Species")
 
 #' Split taxonomic assignment strings
 #'
@@ -75,8 +75,13 @@ taxonomic_ranks <- c(
 #' @param split Pattern on which to split taxa in assignment strings.
 #' @param ... Additional parameters are passed to the \code{strsplit} function.
 #' @return A data frame of taxonomic assignments.
+#' @seealso \code{\link{taxonomic_ranks}}
 #' @export
-split_assignments <- function(assignments, ranks=taxonomic_ranks[2:8], 
+#' @examples
+#' data(relmbeta_assignments)
+#' a <- split_assignments(relmbeta_assignments)
+#' head(a)
+split_assignments <- function(assignments, ranks=taxonomic_ranks, 
   split="; ", ...) {
   a <- strsplit(as.character(assignments), split, ...)
   max_ranks <- max(sapply(a, length))
@@ -98,8 +103,14 @@ split_assignments <- function(assignments, ranks=taxonomic_ranks[2:8],
 #' @param rank1 The rank of taxonomy to use as the first word in the label.
 #' @param rank2 The rank of taxonomy to use as the second word in the label.
 #' @return A character vector of reformatted assignment labels.
+#' @seealso \code{\link{split_assignments}}
 #' @export
-simplify_assignments <- function(assignments_df, rank1="Phylum", rank2="Genus") {
+#' @examples
+#' data(relmbeta_assignments)
+#' a <- split_assignments(relmbeta_assignments)
+#' simplify_assignments(a)
+simplify_assignments <- function(assignments_df, rank1="Phylum", 
+  rank2="Genus") {
   if (is.character(rank1)) {
     rank1 <- match(rank1, colnames(assignments_df))
   }
@@ -135,9 +146,24 @@ simplify_assignments <- function(assignments_df, rank1="Phylum", rank2="Genus") 
 #' @param ... Additional arguments are passed to the pheatmap function.
 #' @return A heatmap plot of the proportions of assignments in each sample,
 #'   and invisibly returns a matrix of the proportions in the plot.
+#' @seealso \code{\link{pheatmap}}, \code{\link{saturated_rainbow}}
 #' @export
+#' @examples
+#' data(relmbeta_assignments)
+#' data(relmbeta_counts)
+#' a <- simplify_assignments(split_assignments(relmbeta_assignments))
+#' 
+#' \dontrun{
+#' otu_heatmap(relmbeta_counts, a, threshold=10)
+#' otu_heatmap(
+#'   relmbeta_counts, a, threshold=10, 
+#'   cluster_rows=F, cluster_cols=F, cellwidth=12, cellheight=12)
+#' }
+#' 
+#' heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=F)
+#' head(heatmap_data)
 otu_heatmap <- function(otu_counts, assignments, threshold=0, plot=T,
-  color=saturated_rainbow(max(colSums(otu_counts))),
+  color=saturated_rainbow(max(colSums(otu_counts)) + 1),
   breaks=seq(0, 1, length.out=length(color) + 1), ...) {
   # rowsum() does not play well with factors
   assignments <- as.character(assignments)
@@ -154,12 +180,32 @@ otu_heatmap <- function(otu_counts, assignments, threshold=0, plot=T,
 }
 
 #' Saturated rainbow palette.
+#' 
+#' This palette is specially designed for data consisting of counts.  It is
+#' intended to show both presence/absence and relative proportion in the same
+#' plot.  For data containing N counts in the largest sample, the saturated 
+#' rainbow palette should be created with length N + 1.
+#' 
+#' The first element of the palette is white, indicating zero counts.  The 
+#' second element is dark blue, indicating one or very few counts.  As the 
+#' proportion increases within a sample, the palette transitions from 
+#' blue to green, yellow, orange, and finally red.
+#' 
+#' The function defines a saturation limit, above which the color remains 
+#' bright red.  The saturation limit is set to 40% by default, to highlight
+#' items with the largest relative proportion in a sample.  The default value 
+#' seems to work well for a wide range of circumstances -- it allows items that
+#' are strongly dominant in a sample to be identified across the plot.  Ideally,
+#' the total number of red squares should be kept low, never more than one per 
+#' sample. 
 #'
 #' @param n Length of the palette
 #' @param saturation_limit The fraction of the total palette length over which
 #'   the rainbow extends.  Above this limit, the color will remain the same.
 #' @return A vector of colors.
 #' @export
+#' @examples
+#' saturated_rainbow(10)
 saturated_rainbow <- function (n, saturation_limit=0.4) {
   saturated_len <- floor(n * (1 - saturation_limit))
   rainbow_colors <- rev(rainbow(n - saturated_len, start=0, end=0.6))

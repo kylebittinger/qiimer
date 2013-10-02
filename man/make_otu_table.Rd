@@ -5,7 +5,8 @@
   make_otu_table(otus, sample_ids = NULL)
 }
 \arguments{
-  \item{otus}{A list of sequence identifiers for each OTU.}
+  \item{otus}{A list of QIIME-format sequence identifiers
+  for each OTU.}
 
   \item{sample_ids}{An optional vector of sample IDs to
   include in the result.}

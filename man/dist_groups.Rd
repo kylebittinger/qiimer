@@ -5,10 +5,10 @@
   dist_groups(d, g)
 }
 \arguments{
-  \item{d}{A distance matrix object of class `dist`.}
+  \item{d}{A distance matrix object of class `"dist"`.}
 
   \item{g}{A factor representing the groups of objects in
-  the matrix.}
+  `d`.}
 }
 \value{
   A data frame with 6 columns. "Item1" and "Item2" identify
@@ -20,5 +20,10 @@
 }
 \description{
   Create a data frame of distances between groups of items.
+}
+\examples{
+data(relmbeta_dist)
+data(relmbeta)
+dist_groups(relmbeta_dist, relmbeta$Diet)
 }
 

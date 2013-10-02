@@ -5,7 +5,7 @@
   read_qiime_distmat(filepath)
 }
 \arguments{
-  \item{filepath}{Path to distance matrix file.}
+  \item{filepath}{Path to QIIME distance matrix file.}
 }
 \value{
   A distance matrix.

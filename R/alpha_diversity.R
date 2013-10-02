@@ -35,6 +35,9 @@ read_qiime_rarefaction <- function(filepath) {
 #' @return A data frame of summary statistics, with columns `SampleID`, 
 #'   `sequences_per_sample`, `diversity.mean`, and `diversity.sd`.
 #' @export
+#' @examples 
+#' data(relmbeta_alpha)
+#' head(rarefaction_stats(relmbeta_alpha))
 rarefaction_stats <- function(rarefaction_table) {
   # Aggregating with 2 functions makes the dimensions wonky.  We want
   # a flat table, so cast result to list and then back to data frame.
