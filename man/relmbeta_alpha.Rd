@@ -2,6 +2,7 @@
 \name{relmbeta_alpha}
 \alias{relmbeta_alpha}
 \title{Shannon diversity measurements from murine gut microbiome}
+\format{A data frame with 2200 rows and 4 columns.}
 \source{
   Hildebrandt et al. High-fat diet determines the
   composition of the murine gut microbiome independently of
@@ -9,9 +10,9 @@
   (2009).
 }
 \description{
-  \code{relmbeta_alpha} is a data frame containing the
-  Shannon diversity (base 2) for each sample at a level of
-  10-500 sequences per sample.
+  \code{relmbeta_alpha} is a data frame containing Shannon
+  diversity (base 2) at a level of 10-500 sequences per
+  sample.
 }
 \details{
   The \code{\link{relmbeta}} documentation provides an

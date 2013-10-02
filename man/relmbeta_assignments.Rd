@@ -2,6 +2,7 @@
 \name{relmbeta_assignments}
 \alias{relmbeta_assignments}
 \title{Taxonomic assignments from murine gut microbiome}
+\format{A character vector with 337 elements.}
 \source{
   Hildebrandt et al. High-fat diet determines the
   composition of the murine gut microbiome independently of

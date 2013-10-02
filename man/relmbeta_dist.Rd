@@ -2,6 +2,7 @@
 \name{relmbeta_dist}
 \alias{relmbeta_dist}
 \title{Unweighted UniFrac distances from murine gut microbiome}
+\format{An object of class \code{"dist"}.}
 \source{
   Hildebrandt et al. High-fat diet determines the
   composition of the murine gut microbiome independently of
