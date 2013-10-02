@@ -49,10 +49,11 @@ a <- simplify_assignments(split_assignments(relmbeta_assignments))
 otu_heatmap(relmbeta_counts, a, threshold=10)
 otu_heatmap(
   relmbeta_counts, a, threshold=10,
-  cluster_rows=F, cluster_cols=F, cellwidth=12, cellheight=12)
+  cluster_rows=FALSE, cluster_cols=FALSE,
+  cellwidth=12, cellheight=12)
 }
 
-heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=F)
+heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=FALSE)
 head(heatmap_data)
 }
 \seealso{
