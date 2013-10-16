@@ -1,5 +1,5 @@
 # Example metadata for BIOM object
-b_otu_ids <- c("0", "1", "2", "3", "5")
+b_otu_ids <- c("denovo0", "denovo1", "denovo2", "denovo3", "denovo5")
 b_sample_ids <- c("A.1", "A.2", "B.1", "B.2", "C.1")
 b_taxonomy <- list(
   "Bacteria", 
@@ -50,7 +50,7 @@ test_that("Sequence IDs are parsed correctly", {
 
 test_that("OTU counts are correct", {
   expect_equal(
-    biom_raw_data(db)["0",], 
+    biom_raw_data(db)["denovo0",], 
     structure(c(5, 10, 2, 0, 3), names=b_sample_ids))
   expect_equal(
     biom_raw_data(db)[,"A.1"], 
@@ -74,6 +74,17 @@ test_that("OTU counts are in the same order as the biom file", {
     c(5, 10, 2, 3, 76, 23, 28, 43, 56, 2, 1, 637, 61, 63, 77, 34, 1))
 })
 
+test_that("Values are correct if OTUs/samples do not appear in data", {
+  ssb <- sb
+  ssb$data <- ssb$data[8:11]
+  expect_equal(
+    biom_raw_data(ssb), 
+    data.frame(
+      OTU=c("denovo1", "denovo1", "denovo2", "denovo2"),
+      SampleID=c("B.2", "C.1", "A.1", "A.2"),
+      value=c(43, 56, 2, 1)))
+})
+
 
 context('biom_taxonomy')
 
@@ -82,5 +93,5 @@ test_that("Taxonomy is correct", {
 })
 
 test_that("Taxonomy list is labeled with OTU IDs", {
-  expect_equal(biom_taxonomy(sb)[["0"]], "Bacteria")
+  expect_equal(biom_taxonomy(sb)[["denovo2"]], c("Bacteria", "Firmicutes"))
 })

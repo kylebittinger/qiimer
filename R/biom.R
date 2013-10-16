@@ -29,8 +29,8 @@ biom_raw_data <- function (b) {
   if (b$matrix_type == "sparse") {
     df <- as.data.frame(do.call(rbind, b$data))
     colnames(df) <- c(row_label, "SampleID", "value")
-    df[[row_label]] <- factor(df[[row_label]], labels=rnames)
-    df$SampleID <- factor(df$SampleID, labels=cnames)
+    df[[row_label]] <- factor(rnames[df[[row_label]] + 1])
+    df$SampleID <- factor(cnames[df$SampleID + 1])
     df
   } else if (b$matrix_type == "dense") {
     dnames <- list()
