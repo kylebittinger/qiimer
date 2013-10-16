@@ -54,7 +54,7 @@ test_that("OTU counts are correct", {
     structure(c(5, 10, 2, 0, 3), names=b_sample_ids))
   expect_equal(
     biom_raw_data(db)[,"A.1"], 
-    structure(c(5, 76, 2, 637, 0), names=otu_ids))
+    structure(c(5, 76, 2, 637, 0), names=b_otu_ids))
 })
 
 
@@ -70,7 +70,7 @@ test_that("Sequence IDs are present", {
 
 test_that("OTU counts are in the same order as the biom file", {
   expect_equal(
-    biom_raw_data(sb)$Reads, 
+    biom_raw_data(sb)$value, 
     c(5, 10, 2, 3, 76, 23, 28, 43, 56, 2, 1, 637, 61, 63, 77, 34, 1))
 })
 

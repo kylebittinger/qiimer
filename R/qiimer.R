@@ -113,8 +113,8 @@ NULL
 #' BIOM format object from murine gut microbiome
 #' 
 #' The \code{relmbeta_biom} object is a representation of the BIOM file
-#' produced by QIIME.  The \code{biom} package must be installed to use this
-#' object.
+#' produced by QIIME.  It was produced by loading the BIOM file with the 
+#' function \code{RJSONIO::fromJSON}.
 #'
 #' The \code{\link{relmbeta}} documentation provides an overview of the study.
 #' 
