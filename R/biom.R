@@ -5,10 +5,8 @@
 #'   For dense biom objects, returns a matrix.
 #' @export
 #' @examples
-#' \dontrun{
 #' data(relmbeta_biom)
 #' head(biom_raw_data(relmbeta_biom))
-#' }
 biom_raw_data <- function (b) {
   # Retrieve the first word from the biom type
   # One of: OTU, Taxon, Gene, Function, Ortholog, Pathway, Metabolite
@@ -40,10 +38,8 @@ biom_raw_data <- function (b) {
 #' @return A list of character vectors, one per row.
 #' @export
 #' @examples
-#' \dontrun{
 #' data(relmbeta_biom)
 #' head(biom_taxonomy(relmbeta_biom))
-#' }
 biom_taxonomy <- function (b, attr="taxonomy") {
   bt <- sapply(b$rows, `[[`, c("metadata", attr))
   names(bt) <- sapply(b$rows, `[[`, "id")
