@@ -108,7 +108,7 @@ split_assignments <- function(assignments, ranks=taxonomic_ranks,
 #' @examples
 #' data(relmbeta_assignments)
 #' a <- split_assignments(relmbeta_assignments)
-#' simplify_assignments(a)
+#' head(simplify_assignments(a))
 simplify_assignments <- function(assignments_df, rank1="Phylum", 
   rank2="Genus") {
   if (is.character(rank1)) {
@@ -146,7 +146,7 @@ simplify_assignments <- function(assignments_df, rank1="Phylum",
 #' @param ... Additional arguments are passed to the pheatmap function.
 #' @return A heatmap plot of the proportions of assignments in each sample,
 #'   and invisibly returns a matrix of the proportions in the plot.
-#' @seealso \code{\link{pheatmap}}, \code{\link{saturated_rainbow}}
+#' @seealso \code{\link{saturated_rainbow}}
 #' @export
 #' @examples
 #' data(relmbeta_assignments)
@@ -206,7 +206,7 @@ otu_heatmap <- function(otu_counts, assignments, threshold=0, plot=T,
 #' @return A vector of colors.
 #' @export
 #' @examples
-#' saturated_rainbow(10)
+#' saturated_rainbow(5)
 saturated_rainbow <- function (n, saturation_limit=0.4) {
   saturated_len <- floor(n * (1 - saturation_limit))
   rainbow_colors <- rev(rainbow(n - saturated_len, start=0, end=0.6))

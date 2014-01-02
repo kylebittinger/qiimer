@@ -82,7 +82,7 @@ dist_subset <- function (d, idx) {
 #' @examples
 #' data(relmbeta_dist)
 #' data(relmbeta)
-#' dist_groups(relmbeta_dist, relmbeta$Diet)
+#' head(dist_groups(relmbeta_dist, relmbeta$Diet))
 dist_groups <- function(d, g) {
   d <- as.dist(d)
   g <- as.factor(g)

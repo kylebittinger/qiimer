@@ -24,7 +24,7 @@
 \examples{
 data(relmbeta_assignments)
 a <- split_assignments(relmbeta_assignments)
-simplify_assignments(a)
+head(simplify_assignments(a))
 }
 \seealso{
   \code{\link{split_assignments}}

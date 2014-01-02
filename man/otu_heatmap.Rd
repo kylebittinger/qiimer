@@ -57,6 +57,6 @@ heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=FALSE)
 head(heatmap_data)
 }
 \seealso{
-  \code{\link{pheatmap}}, \code{\link{saturated_rainbow}}
+  \code{\link{saturated_rainbow}}
 }
 

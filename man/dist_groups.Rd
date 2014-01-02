@@ -24,6 +24,6 @@
 \examples{
 data(relmbeta_dist)
 data(relmbeta)
-dist_groups(relmbeta_dist, relmbeta$Diet)
+head(dist_groups(relmbeta_dist, relmbeta$Diet))
 }
 

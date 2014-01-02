@@ -39,6 +39,6 @@
   sample.
 }
 \examples{
-saturated_rainbow(10)
+saturated_rainbow(5)
 }
 
