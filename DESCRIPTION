@@ -5,9 +5,9 @@ Title: Work with QIIME Output Files in R
 Author: Kyle Bittinger <kylebittinger@gmail.com>
 Description: Open QIIME output files in R, compute statistics, and
     create plots from the data.
-Version: 0.9.1
+Version: 0.9.3
 URL: http://www.r-project.org
-Date: 2012-11-29
+Date: 2014-05-02
 Imports:
     pheatmap
 Suggests:
