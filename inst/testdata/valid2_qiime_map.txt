@@ -1,0 +1,17 @@
+#SampleID
+CVM.001.2
+CVM.001.3
+RickSpit
+CVM.001.1
+PondScum
+CVM.323.2
+CM.001
+CVM.322.1
+CVM.323.1
+CVM.322.2
+CVM.323.3
+CVM.322.3
+ExtBlank2
+ExtBlank1
+PCRBlank2
+PCRBlank1
