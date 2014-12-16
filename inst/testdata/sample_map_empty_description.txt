@@ -1,0 +1,6 @@
+#SampleID	BarcodeSequence	LinkerPrimerSequence	Diet	Description
+A.1	CCCCGGGG	ACGTACGT	HighFat	
+A.2	CCGGGGGG	ACGTACGT	LowFat	
+B.1	AAAATTTT	ACGTACGT	HighFat	
+B.2	AATTTTTT	ACGTACGT	LowFat	
+C.1	CCAAGGTT	ACGTACGT	HighFat	

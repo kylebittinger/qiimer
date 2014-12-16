@@ -1,0 +1,84 @@
+Input file paths
+Mapping filepath: BLR749.txt (md5: ba369224d2e1a39596431cbf4d7ebd0a)
+Sequence read filepath: Join/fastqjoin.join.fastq (md5: 9656728629a837b174b4c16a96f65d2c)
+Barcode read filepath: Join/fastqjoin.join_barcodes.fastq (md5: ce100d745af9690bd27c74099866b383)
+
+Quality filter results
+Barcode not in mapping file: 3561
+Read too short after quality truncation: 0
+Count of N characters exceeds limit: 7250278
+Total number of input sequences: 11190687
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 1110109
+
+Result summary (after quality filtering)
+Median sequence length: 316.00
+GRO.53	70365
+Lyme.2	70337
+GRO.71	67639
+GRO.243	66805
+Lyme.3	66682
+GRO.47	66440
+GRO.9	63696
+GRO.216	63635
+GRO.156	63551
+Lyme.1	63542
+GRO.76	63088
+GRO.179	62240
+Saliva3	60995
+GRO.19	60264
+GRO.74	58081
+GRO.93	56147
+GRO.241	55304
+GRO.1119	54337
+GRO.180	53785
+GRO.396	53049
+GRO.73	52322
+GRO.440	51877
+GRO.175	50752
+GRO.896	50458
+GRO.88	49693
+GRO.34	48655
+GRO.1310.JT	48562
+GRO.187	47488
+GRO.328.327	47140
+GRO.70	47050
+PondScum1	46917
+GRO.163	45176
+GRO.169	44719
+PondScum2	43789
+GRO.787	43694
+GRO.389	42699
+GRO.1151	42295
+GRO.57	41641
+GRO.66	41088
+GRO.307	41066
+GRO.637	41049
+GRO.277	40986
+GRO.62	40890
+GRO.386	40670
+GRO.158	39813
+GRO.1313.JT	38995
+GRO.134	38730
+GRO.848	38475
+GRO.1450	36652
+GRO.121	33671
+GRO.613	33108
+GRO.124	32817
+GRO.215	32623
+GRO.49	32423
+GRO.1312.JT	31235
+GRO.867	29266
+GRO.1451	27604
+GRO.1329.JT	25569
+GRO.105	24958
+ExtBlank1	68
+ExtBlank3	20
+Saliva2	18
+ExtBlank4	15
+ExtBlank2	15
+PCRblank	6
+
+Total number seqs written	2826739
+---
+
