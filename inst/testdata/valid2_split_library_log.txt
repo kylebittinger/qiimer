@@ -1,0 +1,35 @@
+Input file paths
+Mapping filepath: BLR_746.txt (md5: 6ef81451c894ccb110c89f56a40e4119)
+Sequence read filepath: Join/fastqjoin.join.fastq (md5: 9e4ae7a38a658567ff5d3ab0577592a9)
+Barcode read filepath: Join/fastqjoin.join_barcodes.fastq (md5: 5a51171939c541103fef6d07b06497ab)
+
+Quality filter results
+Total number of input sequences: 597097
+Barcode not in mapping file: 883
+Read too short after quality truncation: 0
+Count of N characters exceeds limit: 0
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 149480
+
+Result summary (after quality filtering)
+Median sequence length: 315.00
+CVM.001.2	58403
+CVM.001.3	52711
+RickSpit	52048
+CVM.001.1	50138
+PondScum	45302
+CVM.323.2	34247
+CM.001	32483
+CVM.322.1	32289
+CVM.323.1	26616
+CVM.322.2	22322
+CVM.323.3	21327
+CVM.322.3	18412
+ExtBlank2	348
+ExtBlank1	74
+PCRBlank2	7
+PCRBlank1	7
+
+Total number seqs written	446734
+---
+
