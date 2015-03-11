@@ -2,20 +2,20 @@
 \alias{rarefaction_stats}
 \title{Compute summary statistics for collated alpha diversity tables.}
 \usage{
-  rarefaction_stats(rarefaction_table)
+rarefaction_stats(rarefaction_table)
 }
 \arguments{
   \item{rarefaction_table}{A collated alpha diversity data
   frame.}
 }
 \value{
-  A data frame of summary statistics, with columns
-  `SampleID`, `sequences_per_sample`, `diversity.mean`, and
-  `diversity.sd`.
+A data frame of summary statistics, with columns
+`SampleID`, `sequences_per_sample`, `diversity.mean`, and
+`diversity.sd`.
 }
 \description{
-  Compute summary statistics for collated alpha diversity
-  tables.
+Compute summary statistics for collated alpha diversity
+tables.
 }
 \examples{
 data(relmbeta_alpha)

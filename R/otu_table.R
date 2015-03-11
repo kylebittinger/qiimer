@@ -4,40 +4,35 @@
 #' @param commented TRUE if the header line is preceeded by an additional
 #'   comment line, otherwise FALSE.  This is usually the case for OTU
 #'   tables generated with QIIME, so we default to TRUE.
+#' @param metadata TRUE if the OTU table contains a metadata column, otherwise
+#'   FALSE.  The metadata column usually contains taxonomic assignments, and
+#'   must be located on the right-hand side of the table.
 #' @return A list with four attributes: sample_ids, otu_ids, counts, and 
 #'   metadata, a data structure similar to that returned by the python 
 #'   function `qiime.parse.parse_otu_table`.  The sample_ids, otu_ids, and
-#'   metadata attributes are character vectors.  The counts attribute is an
-#'   integer matrix with one column per sample_id and one row per otu_id.
+#'   metadata attributes are character vectors.  The counts attribute is a
+#'   matrix with one column per sample_id and one row per otu_id.
 #' @export
-read_qiime_otu_table <- function(filepath, commented=TRUE) {
+read_qiime_otu_table <- function(filepath, commented=TRUE, metadata=TRUE) {
   f <- file(filepath, "rt")
   header_line <- readLines(f, n=1)
   if (commented) {
     header_line <- readLines(f, n=1)
   }
-  col_names <- unlist(strsplit(header_line, "\t"))
+  col_names <- strsplit(header_line, "\t")[[1]]
 
-  # Following the QIIME implementation, we decide if the table contains 
-  # metadata by inspecting the final column for "Consensus Lineage", "OTU
-  # Metadata", or "Taxonomy" (spaces and capitalization ignored)
-  has_metadata <- grepl(
-    "(Consensus ?Lineage)|(OTU ?Metadata)|(Taxonomy)",
-    col_names[length(col_names)],
-    ignore.case=T, perl=T)
-  
   col_classes <- rep("numeric", times=length(col_names))
-  
-  if (has_metadata) {
-    col_classes[c(1, length(col_classes))] <- "character"
+  col_classes[1] <- "character"
+  if (metadata) {
+    col_classes[length(col_classes)] <- "character"
   }
-  
+
   full_otu_table <- read.table(
     f, col.names=col_names, colClasses=col_classes, sep="\t", 
     quote="", as.is=TRUE, header=FALSE)
   close(f)
 
-  data_cols <- if (has_metadata) {
+  data_cols <- if (metadata) {
     2:(length(col_names) - 1) 
   } else {
     2:length(col_names)
@@ -49,15 +44,16 @@ read_qiime_otu_table <- function(filepath, commented=TRUE) {
   counts <- as.matrix(full_otu_table[,data_cols])
   rownames(counts) <- otu_ids
 
-  if (has_metadata) {
-    metadata <- as.character(full_otu_table[,length(col_names)])
-    names(metadata) <- otu_ids
+  if (metadata) {
+    metadata_vals <- as.character(full_otu_table[,length(col_names)])
+    names(metadata_vals) <- otu_ids
   } else {
-    metadata <- NULL
+    metadata_vals <- NULL
   }
     
   list(
-    sample_ids=sample_ids, otu_ids=otu_ids, counts=counts, metadata=metadata)
+    sample_ids=sample_ids, otu_ids=otu_ids, counts=counts,
+    metadata=metadata_vals)
 }
 
 #' Standard taxonomic ranks.

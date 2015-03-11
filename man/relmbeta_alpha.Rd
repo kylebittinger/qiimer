@@ -4,22 +4,21 @@
 \title{Shannon diversity measurements from murine gut microbiome}
 \format{A data frame with 2200 rows and 4 columns.}
 \source{
-  Hildebrandt et al. High-fat diet determines the
-  composition of the murine gut microbiome independently of
-  obesity. \emph{Gastroenterology} \strong{137}, 1716
-  (2009).
+Hildebrandt et al. High-fat diet determines the composition
+of the murine gut microbiome independently of obesity.
+\emph{Gastroenterology} \strong{137}, 1716 (2009).
 }
 \description{
-  \code{relmbeta_alpha} is a data frame containing Shannon
-  diversity (base 2) at a level of 10-500 sequences per
-  sample.
+\code{relmbeta_alpha} is a data frame containing Shannon
+diversity (base 2) at a level of 10-500 sequences per
+sample.
 }
 \details{
-  The \code{\link{relmbeta}} documentation provides an
-  overview of the study.
+The \code{\link{relmbeta}} documentation provides an
+overview of the study.
 }
 \seealso{
-  \code{\link{relmbeta}}
+\code{\link{relmbeta}}
 }
 \keyword{datasets}
 

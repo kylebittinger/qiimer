@@ -2,7 +2,7 @@
 \alias{dist_get}
 \title{Retrieve distances from a `"dist"` object.}
 \usage{
-  dist_get(d, idx1, idx2)
+dist_get(d, idx1, idx2)
 }
 \arguments{
   \item{d}{A distance matrix object of class `"dist"`.}
@@ -11,10 +11,10 @@
   extract.}
 }
 \value{
-  A vector of distances.
+A vector of distances.
 }
 \description{
-  Retrieve distances from a `"dist"` object.
+Retrieve distances from a `"dist"` object.
 }
 \examples{
 data(relmbeta_dist)

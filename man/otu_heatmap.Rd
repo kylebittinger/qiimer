@@ -2,11 +2,9 @@
 \alias{otu_heatmap}
 \title{Create a heatmap of OTU counts.}
 \usage{
-  otu_heatmap(otu_counts, assignments, threshold = 0,
-    plot = T,
-    color = saturated_rainbow(max(colSums(otu_counts)) + 1),
-    breaks = seq(0, 1, length.out = length(color) + 1),
-    ...)
+otu_heatmap(otu_counts, assignments, threshold = 0, plot = T,
+  color = saturated_rainbow(max(colSums(otu_counts)) + 1), breaks = seq(0,
+  1, length.out = length(color) + 1), ...)
 }
 \arguments{
   \item{otu_counts}{A matrix of OTU counts, one row per OTU
@@ -33,12 +31,12 @@
   pheatmap function.}
 }
 \value{
-  A heatmap plot of the proportions of assignments in each
-  sample, and invisibly returns a matrix of the proportions
-  in the plot.
+A heatmap plot of the proportions of assignments in each
+sample, and invisibly returns a matrix of the proportions
+in the plot.
 }
 \description{
-  Create a heatmap of OTU counts.
+Create a heatmap of OTU counts.
 }
 \examples{
 data(relmbeta_assignments)
@@ -57,6 +55,6 @@ heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=FALSE)
 head(heatmap_data)
 }
 \seealso{
-  \code{\link{saturated_rainbow}}
+\code{\link{saturated_rainbow}}
 }
 

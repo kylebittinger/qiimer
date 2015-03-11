@@ -2,16 +2,16 @@
 \alias{read_qiime_rarefaction}
 \title{Read a collated alpha diversity table from QIIME.}
 \usage{
-  read_qiime_rarefaction(filepath)
+read_qiime_rarefaction(filepath)
 }
 \arguments{
   \item{filepath}{Path to collated alpha diversity file.}
 }
 \value{
-  A data frame with columns `SampleID`,
-  `sequences_per_sample`, `iteration`, and `diversity`.
+A data frame with columns `SampleID`,
+`sequences_per_sample`, `iteration`, and `diversity`.
 }
 \description{
-  Read a collated alpha diversity table from QIIME.
+Read a collated alpha diversity table from QIIME.
 }
 

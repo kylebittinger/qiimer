@@ -2,7 +2,7 @@
 \alias{make_otu_table}
 \title{Create an OTU table.}
 \usage{
-  make_otu_table(otus, sample_ids = NULL)
+make_otu_table(otus, sample_ids = NULL)
 }
 \arguments{
   \item{otus}{A list of QIIME-format sequence identifiers
@@ -12,9 +12,9 @@
   include in the result.}
 }
 \value{
-  A matrix of OTU counts by sample.
+A matrix of OTU counts by sample.
 }
 \description{
-  Create an OTU table.
+Create an OTU table.
 }
 
