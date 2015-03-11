@@ -2,7 +2,7 @@
 \alias{read_qiime_otu_mapping}
 \title{Parse an OTU mapping file from QIIME.}
 \usage{
-  read_qiime_otu_mapping(filepath, prefix = "")
+read_qiime_otu_mapping(filepath, prefix = "")
 }
 \arguments{
   \item{filepath}{Path to the OTU mapping file.}
@@ -11,9 +11,9 @@
   value.}
 }
 \value{
-  A list of sequence identifiers for each OTU.
+A list of sequence identifiers for each OTU.
 }
 \description{
-  Parse an OTU mapping file from QIIME.
+Parse an OTU mapping file from QIIME.
 }
 

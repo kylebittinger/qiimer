@@ -2,8 +2,7 @@
 \alias{simplify_assignments}
 \title{Reformat taxonomic assignments for presentation.}
 \usage{
-  simplify_assignments(assignments_df, rank1 = "Phylum",
-    rank2 = "Genus")
+simplify_assignments(assignments_df, rank1 = "Phylum", rank2 = "Genus")
 }
 \arguments{
   \item{assignments_df}{A data frame of taxonomic
@@ -16,10 +15,10 @@
   word in the label.}
 }
 \value{
-  A character vector of reformatted assignment labels.
+A character vector of reformatted assignment labels.
 }
 \description{
-  Reformat taxonomic assignments for presentation.
+Reformat taxonomic assignments for presentation.
 }
 \examples{
 data(relmbeta_assignments)
@@ -27,6 +26,6 @@ a <- split_assignments(relmbeta_assignments)
 head(simplify_assignments(a))
 }
 \seealso{
-  \code{\link{split_assignments}}
+\code{\link{split_assignments}}
 }
 

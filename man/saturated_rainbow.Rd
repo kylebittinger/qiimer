@@ -2,7 +2,7 @@
 \alias{saturated_rainbow}
 \title{Saturated rainbow palette.}
 \usage{
-  saturated_rainbow(n, saturation_limit = 0.4)
+saturated_rainbow(n, saturation_limit = 0.4)
 }
 \arguments{
   \item{n}{Length of the palette}
@@ -12,31 +12,31 @@
   the color will remain the same.}
 }
 \value{
-  A vector of colors.
+A vector of colors.
 }
 \description{
-  This palette is specially designed for data consisting of
-  counts.  It is intended to show both presence/absence and
-  relative proportion in the same plot.  For data
-  containing N counts in the largest sample, the saturated
-  rainbow palette should be created with length N + 1.
+This palette is specially designed for data consisting of
+counts.  It is intended to show both presence/absence and
+relative proportion in the same plot.  For data containing
+N counts in the largest sample, the saturated rainbow
+palette should be created with length N + 1.
 }
 \details{
-  The first element of the palette is white, indicating
-  zero counts.  The second element is dark blue, indicating
-  one or very few counts.  As the proportion increases
-  within a sample, the palette transitions from blue to
-  green, yellow, orange, and finally red.
+The first element of the palette is white, indicating zero
+counts.  The second element is dark blue, indicating one or
+very few counts.  As the proportion increases within a
+sample, the palette transitions from blue to green, yellow,
+orange, and finally red.
 
-  The function defines a saturation limit, above which the
-  color remains bright red.  The saturation limit is set to
-  40% by default, to highlight items with the largest
-  relative proportion in a sample.  The default value seems
-  to work well for a wide range of circumstances -- it
-  allows items that are strongly dominant in a sample to be
-  identified across the plot.  Ideally, the total number of
-  red squares should be kept low, never more than one per
-  sample.
+The function defines a saturation limit, above which the
+color remains bright red.  The saturation limit is set to
+40% by default, to highlight items with the largest
+relative proportion in a sample.  The default value seems
+to work well for a wide range of circumstances -- it allows
+items that are strongly dominant in a sample to be
+identified across the plot.  Ideally, the total number of
+red squares should be kept low, never more than one per
+sample.
 }
 \examples{
 saturated_rainbow(5)

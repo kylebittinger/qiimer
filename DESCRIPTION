@@ -13,12 +13,3 @@ Imports:
 Suggests:
     testthat,
     biom
-Collate:
-    'alpha_diversity.R'
-    'distance_matrix.R'
-    'otu_table.R'
-    'sample_mapping.R'
-    'blast.R'
-    'otu_mapping.R'
-    'qiimer.R'
-    'biom.R'

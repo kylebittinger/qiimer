@@ -2,7 +2,7 @@
 \alias{dist_subset}
 \title{Extract parts of a `"dist"` object.}
 \usage{
-  dist_subset(d, idx)
+dist_subset(d, idx)
 }
 \arguments{
   \item{d}{A distance matrix object of class `"dist"`.}
@@ -11,10 +11,10 @@
   extract.}
 }
 \value{
-  A distance matrix.
+A distance matrix.
 }
 \description{
-  Extract parts of a `"dist"` object.
+Extract parts of a `"dist"` object.
 }
 \examples{
 data(relmbeta_dist)

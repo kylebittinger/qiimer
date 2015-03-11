@@ -2,15 +2,15 @@
 \alias{read_qiime_distmat}
 \title{Read a QIIME distance matrix file.}
 \usage{
-  read_qiime_distmat(filepath)
+read_qiime_distmat(filepath)
 }
 \arguments{
   \item{filepath}{Path to QIIME distance matrix file.}
 }
 \value{
-  A distance matrix.
+A distance matrix.
 }
 \description{
-  Read a QIIME distance matrix file.
+Read a QIIME distance matrix file.
 }
 
