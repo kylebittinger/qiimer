@@ -5,8 +5,8 @@
 \title{Create a heatmap of OTU counts.}
 \usage{
 otu_heatmap(otu_counts, assignments, threshold = 0, plot = T,
-  color = saturated_rainbow(max(colSums(otu_counts)) + 1), breaks = seq(0,
-  1, length.out = length(color) + 1), ...)
+  color = saturated_rainbow(100), breaks = c(0, 1e-10, seq(0.001, 1,
+  length.out = 100)), ...)
 }
 \arguments{
 \item{otu_counts}{A matrix of OTU counts, one row per OTU and one column 
