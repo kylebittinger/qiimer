@@ -9,7 +9,10 @@ Version: 0.9.4
 URL: http://www.r-project.org
 Date: 2015-12-27
 Imports:
-    pheatmap
+    grDevices,
+    pheatmap,
+    stats,
+    utils
 Suggests:
     testthat,
     biom

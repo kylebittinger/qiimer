@@ -2,7 +2,10 @@
 #' 
 #' @name qiimer
 #' @docType package
+#' @import grDevices
 #' @import pheatmap
+#' @import stats
+#' @import utils
 NULL
 
 
