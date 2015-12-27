@@ -7,7 +7,7 @@ Description: Open QIIME output files in R, compute statistics, and
     create plots from the data.
 Version: 0.9.4
 URL: http://www.r-project.org
-Date: 2014-05-02
+Date: 2015-12-27
 Imports:
     pheatmap
 Suggests:
