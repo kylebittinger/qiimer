@@ -160,8 +160,8 @@ simplify_assignments <- function(assignments_df, rank1="Phylum",
 #' heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=FALSE)
 #' head(heatmap_data)
 otu_heatmap <- function(otu_counts, assignments, threshold=0, plot=T,
-  color=saturated_rainbow(max(colSums(otu_counts)) + 1),
-  breaks=seq(0, 1, length.out=length(color) + 1), ...) {
+  color=saturated_rainbow(100),
+  breaks=c(0, 1e-10, seq(0.001, 1, length.out = 100)), ...) {
   # rowsum() does not play well with factors
   assignments <- as.character(assignments)
   # NA values in assignments work fine, but produce an unnecessary warning
