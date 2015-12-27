@@ -13,3 +13,4 @@ Imports:
 Suggests:
     testthat,
     biom
+RoxygenNote: 5.0.1
