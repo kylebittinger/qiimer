@@ -26,8 +26,8 @@ read_qiime_otu_table <- function(filepath, commented=TRUE, metadata=TRUE,
 
   if (use.readr & requireNamespace("readr")) {
     
-    full_otu_table <- readr::read_tsv(
-      filepath, col_names = col_names, skip = 2)
+    full_otu_table <- as.data.frame(readr::read_tsv(
+      filepath, col_names = col_names, skip = 2))
 
   } else {
     
