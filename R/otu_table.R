@@ -25,13 +25,11 @@ read_qiime_otu_table <- function(filepath, commented=TRUE, metadata=TRUE,
   col_names <- strsplit(header_line, "\t")[[1]]
 
   if (use.readr & requireNamespace("readr")) {
-    print("using readr")
-
+    
     full_otu_table <- readr::read_tsv(
       filepath, col_names = col_names, skip = 2)
-    
+
   } else {
-    print("using utils")
     
     col_classes <- rep("numeric", times=length(col_names))
     col_classes[1] <- "character"
