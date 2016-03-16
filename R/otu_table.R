@@ -4,40 +4,35 @@
 #' @param commented TRUE if the header line is preceeded by an additional
 #'   comment line, otherwise FALSE.  This is usually the case for OTU
 #'   tables generated with QIIME, so we default to TRUE.
+#' @param metadata TRUE if the OTU table contains a metadata column, otherwise
+#'   FALSE.  The metadata column usually contains taxonomic assignments, and
+#'   must be located on the right-hand side of the table.
 #' @return A list with four attributes: sample_ids, otu_ids, counts, and 
 #'   metadata, a data structure similar to that returned by the python 
 #'   function `qiime.parse.parse_otu_table`.  The sample_ids, otu_ids, and
-#'   metadata attributes are character vectors.  The counts attribute is an
-#'   integer matrix with one column per sample_id and one row per otu_id.
+#'   metadata attributes are character vectors.  The counts attribute is a
+#'   matrix with one column per sample_id and one row per otu_id.
 #' @export
-read_qiime_otu_table <- function(filepath, commented=TRUE) {
+read_qiime_otu_table <- function(filepath, commented=TRUE, metadata=TRUE) {
   f <- file(filepath, "rt")
   header_line <- readLines(f, n=1)
   if (commented) {
     header_line <- readLines(f, n=1)
   }
-  col_names <- unlist(strsplit(header_line, "\t"))
+  col_names <- strsplit(header_line, "\t")[[1]]
 
-  # Following the QIIME implementation, we decide if the table contains 
-  # metadata by inspecting the final column for "Consensus Lineage", "OTU
-  # Metadata", or "Taxonomy" (spaces and capitalization ignored)
-  has_metadata <- grepl(
-    "(Consensus ?Lineage)|(OTU ?Metadata)|(Taxonomy)",
-    col_names[length(col_names)],
-    ignore.case=T, perl=T)
-  
   col_classes <- rep("numeric", times=length(col_names))
-  
-  if (has_metadata) {
-    col_classes[c(1, length(col_classes))] <- "character"
+  col_classes[1] <- "character"
+  if (metadata) {
+    col_classes[length(col_classes)] <- "character"
   }
-  
+
   full_otu_table <- read.table(
     f, col.names=col_names, colClasses=col_classes, sep="\t", 
     quote="", as.is=TRUE, header=FALSE)
   close(f)
 
-  data_cols <- if (has_metadata) {
+  data_cols <- if (metadata) {
     2:(length(col_names) - 1) 
   } else {
     2:length(col_names)
@@ -49,15 +44,16 @@ read_qiime_otu_table <- function(filepath, commented=TRUE) {
   counts <- as.matrix(full_otu_table[,data_cols])
   rownames(counts) <- otu_ids
 
-  if (has_metadata) {
-    metadata <- as.character(full_otu_table[,length(col_names)])
-    names(metadata) <- otu_ids
+  if (metadata) {
+    metadata_vals <- as.character(full_otu_table[,length(col_names)])
+    names(metadata_vals) <- otu_ids
   } else {
-    metadata <- NULL
+    metadata_vals <- NULL
   }
     
   list(
-    sample_ids=sample_ids, otu_ids=otu_ids, counts=counts, metadata=metadata)
+    sample_ids=sample_ids, otu_ids=otu_ids, counts=counts,
+    metadata=metadata_vals)
 }
 
 #' Standard taxonomic ranks.
@@ -108,7 +104,7 @@ split_assignments <- function(assignments, ranks=taxonomic_ranks,
 #' @examples
 #' data(relmbeta_assignments)
 #' a <- split_assignments(relmbeta_assignments)
-#' simplify_assignments(a)
+#' head(simplify_assignments(a))
 simplify_assignments <- function(assignments_df, rank1="Phylum", 
   rank2="Genus") {
   if (is.character(rank1)) {
@@ -146,7 +142,7 @@ simplify_assignments <- function(assignments_df, rank1="Phylum",
 #' @param ... Additional arguments are passed to the pheatmap function.
 #' @return A heatmap plot of the proportions of assignments in each sample,
 #'   and invisibly returns a matrix of the proportions in the plot.
-#' @seealso \code{\link{pheatmap}}, \code{\link{saturated_rainbow}}
+#' @seealso \code{\link{saturated_rainbow}}
 #' @export
 #' @examples
 #' data(relmbeta_assignments)
@@ -164,8 +160,8 @@ simplify_assignments <- function(assignments_df, rank1="Phylum",
 #' heatmap_data <- otu_heatmap(relmbeta_counts, a, threshold=10, plot=FALSE)
 #' head(heatmap_data)
 otu_heatmap <- function(otu_counts, assignments, threshold=0, plot=T,
-  color=saturated_rainbow(max(colSums(otu_counts)) + 1),
-  breaks=seq(0, 1, length.out=length(color) + 1), ...) {
+  color=saturated_rainbow(100),
+  breaks=c(0, 1e-10, seq(0.001, 1, length.out = 100)), ...) {
   # rowsum() does not play well with factors
   assignments <- as.character(assignments)
   # NA values in assignments work fine, but produce an unnecessary warning
@@ -206,7 +202,7 @@ otu_heatmap <- function(otu_counts, assignments, threshold=0, plot=T,
 #' @return A vector of colors.
 #' @export
 #' @examples
-#' saturated_rainbow(10)
+#' saturated_rainbow(5)
 saturated_rainbow <- function (n, saturation_limit=0.4) {
   saturated_len <- floor(n * (1 - saturation_limit))
   rainbow_colors <- rev(rainbow(n - saturated_len, start=0, end=0.6))

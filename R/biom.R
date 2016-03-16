@@ -70,7 +70,7 @@ biom_raw_data <- function (b) {
 #' data(relmbeta_biom)
 #' head(biom_taxonomy(relmbeta_biom))
 biom_taxonomy <- function (b, attr="taxonomy") {
-  bt <- sapply(b$rows, `[[`, c("metadata", attr))
+  bt <- lapply(b$rows, `[[`, c("metadata", attr))
   names(bt) <- sapply(b$rows, `[[`, "id")
   bt
 }

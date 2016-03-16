@@ -5,20 +5,15 @@ Title: Work with QIIME Output Files in R
 Author: Kyle Bittinger <kylebittinger@gmail.com>
 Description: Open QIIME output files in R, compute statistics, and
     create plots from the data.
-Version: 0.9.1
+Version: 0.9.4
 URL: http://www.r-project.org
-Date: 2012-11-29
+Date: 2015-12-27
 Imports:
-    pheatmap
+    grDevices,
+    pheatmap,
+    stats,
+    utils
 Suggests:
     testthat,
     biom
-Collate:
-    'alpha_diversity.R'
-    'distance_matrix.R'
-    'otu_table.R'
-    'sample_mapping.R'
-    'blast.R'
-    'otu_mapping.R'
-    'qiimer.R'
-    'biom.R'
+RoxygenNote: 5.0.1
