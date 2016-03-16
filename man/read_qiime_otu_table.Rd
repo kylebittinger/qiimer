@@ -5,7 +5,7 @@
 \title{Parse a QIIME OTU table file in "calssic" format.}
 \usage{
 read_qiime_otu_table(filepath, commented = TRUE, metadata = TRUE,
-  use.readr = FALSE)
+  use.readr = TRUE)
 }
 \arguments{
 \item{filepath}{Path to OTU table file.}
