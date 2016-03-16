@@ -7,7 +7,8 @@
 #' @param metadata TRUE if the OTU table contains a metadata column, otherwise
 #'   FALSE.  The metadata column usually contains taxonomic assignments, and
 #'   must be located on the right-hand side of the table.
-#' @param use.readr Use readr::read_tsv if available. Can speed up reading by 10x.
+#' @param use.readr Use readr::read_tsv if available. Can speed up reading quite
+#'   a bit.
 #' @return A list with four attributes: sample_ids, otu_ids, counts, and 
 #'   metadata, a data structure similar to that returned by the python 
 #'   function `qiime.parse.parse_otu_table`.  The sample_ids, otu_ids, and
@@ -15,7 +16,7 @@
 #'   matrix with one column per sample_id and one row per otu_id.
 #' @export
 read_qiime_otu_table <- function(filepath, commented=TRUE, metadata=TRUE,
-                                 use.readr=TRUE) {
+                                 use.readr=FALSE) {
   f <- file(filepath, "rt")
   header_line <- readLines(f, n=1)
   if (commented) {
