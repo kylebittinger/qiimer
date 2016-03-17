@@ -4,7 +4,8 @@
 \alias{read_qiime_otu_table}
 \title{Parse a QIIME OTU table file in "calssic" format.}
 \usage{
-read_qiime_otu_table(filepath, commented = TRUE, metadata = TRUE)
+read_qiime_otu_table(filepath, commented = TRUE, metadata = TRUE,
+  use.readr = FALSE)
 }
 \arguments{
 \item{filepath}{Path to OTU table file.}
@@ -16,6 +17,9 @@ tables generated with QIIME, so we default to TRUE.}
 \item{metadata}{TRUE if the OTU table contains a metadata column, otherwise
 FALSE.  The metadata column usually contains taxonomic assignments, and
 must be located on the right-hand side of the table.}
+
+\item{use.readr}{Use readr::read_tsv if available. Can speed up reading quite
+a bit.}
 }
 \value{
 A list with four attributes: sample_ids, otu_ids, counts, and 

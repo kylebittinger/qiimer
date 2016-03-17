@@ -15,5 +15,6 @@ Imports:
     utils
 Suggests:
     testthat,
-    biom
+    biom,
+    readr
 RoxygenNote: 5.0.1
