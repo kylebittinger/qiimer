@@ -17,10 +17,16 @@ For sparse biom objects, returns a 3-column data frame of row names,
   respectively.  For dense biom objects, returns a matrix.
 }
 \description{
-This function extracts the raw data from a BIOM object, using the correct 
-row and column names in the result.
+WARNING: This function has been removed. Previous versions of this function
+did not give the correct result under some circumstances. If you have used
+this function previously, please check your work by converting the BIOM file
+to classic tab-separated values format and importing with the function
+read_qiime_otu_table().
 }
 \details{
+This function extracts the raw data from a BIOM object, using the correct 
+row and column names in the result.
+
 The BIOM object can be any list-like representation of the JSON 
 source code in a BIOM-format file produced by QIIME.  There are several 
 options for creating BIOM objects from QIIME output files.  The official
@@ -32,4 +38,3 @@ either \code{RJSONIO} or \code{rjson} may be used.
 data(relmbeta_biom)
 head(biom_raw_data(relmbeta_biom))
 }
-

@@ -30,4 +30,3 @@ head(a)
 \seealso{
 \code{\link{taxonomic_ranks}}
 }
-

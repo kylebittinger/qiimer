@@ -26,4 +26,3 @@ data(relmbeta_dist)
 data(relmbeta)
 head(dist_groups(relmbeta_dist, relmbeta$Diet))
 }
-

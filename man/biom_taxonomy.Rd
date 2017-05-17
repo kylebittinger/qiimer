@@ -37,4 +37,3 @@ either \code{RJSONIO} or \code{rjson} may be used.
 data(relmbeta_biom)
 head(biom_taxonomy(relmbeta_biom))
 }
-

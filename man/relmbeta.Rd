@@ -32,4 +32,3 @@ The \code{relmbeta} data frame lists the sample IDs, genotypes, and dietary
 assignments for the mice.
 }
 \keyword{datasets}
-

@@ -27,4 +27,3 @@ head(simplify_assignments(a))
 \seealso{
 \code{\link{split_assignments}}
 }
-

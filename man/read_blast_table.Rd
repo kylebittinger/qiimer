@@ -15,4 +15,3 @@ A data frame of BLAST results.
 \description{
 Parse tabular output from BLAST.
 }
-

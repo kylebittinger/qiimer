@@ -8,4 +8,3 @@
 \description{
 qiimer: Read QIIME output files and create plots
 }
-

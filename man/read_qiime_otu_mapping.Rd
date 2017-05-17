@@ -17,4 +17,3 @@ A list of sequence identifiers for each OTU.
 \description{
 Parse an OTU mapping file from QIIME.
 }
-

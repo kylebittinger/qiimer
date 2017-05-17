@@ -19,4 +19,3 @@ A data frame of sample information.  Because the SampleID column is
 \description{
 Read a QIIME sample mapping file.
 }
-

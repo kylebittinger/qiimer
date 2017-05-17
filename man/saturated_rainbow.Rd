@@ -38,4 +38,3 @@ sample.
 \examples{
 saturated_rainbow(5)
 }
-

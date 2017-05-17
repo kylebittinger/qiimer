@@ -16,4 +16,3 @@ A data frame with columns `SampleID`, `sequences_per_sample`,
 \description{
 Read a collated alpha diversity table from QIIME.
 }
-

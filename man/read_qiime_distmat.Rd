@@ -15,4 +15,3 @@ A distance matrix.
 \description{
 Read a QIIME distance matrix file.
 }
-

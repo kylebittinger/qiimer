@@ -20,4 +20,3 @@ Compute summary statistics for collated alpha diversity tables.
 data(relmbeta_alpha)
 head(rarefaction_stats(relmbeta_alpha))
 }
-

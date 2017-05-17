@@ -21,4 +21,3 @@ The \code{\link{relmbeta}} documentation provides an overview of the study.
 \code{\link{relmbeta}}
 }
 \keyword{datasets}
-

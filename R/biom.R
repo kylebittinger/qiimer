@@ -1,5 +1,11 @@
 #' Extract raw data from a BIOM object.
 #' 
+#' WARNING: This function has been removed. Previous versions of this function
+#' did not give the correct result under some circumstances. If you have used
+#' this function previously, please check your work by converting the BIOM file
+#' to classic tab-separated values format and importing with the function
+#' read_qiime_otu_table().
+#'
 #' This function extracts the raw data from a BIOM object, using the correct 
 #' row and column names in the result.
 #' 
@@ -21,26 +27,11 @@
 #' data(relmbeta_biom)
 #' head(biom_raw_data(relmbeta_biom))
 biom_raw_data <- function (b) {
-  # Retrieve the first word from the biom type
-  # One of: OTU, Taxon, Gene, Function, Ortholog, Pathway, Metabolite
-  row_label <- strsplit(b$type, " ")[[1]][1]
-  rnames <- sapply(b$rows, `[[`, "id")
-  cnames <- sapply(b$columns, `[[`, "id")
-  if (b$matrix_type == "sparse") {
-    df <- as.data.frame(do.call(rbind, b$data))
-    colnames(df) <- c(row_label, "SampleID", "value")
-    df[[row_label]] <- factor(rnames[df[[row_label]] + 1])
-    df$SampleID <- factor(cnames[df$SampleID + 1])
-    df
-  } else if (b$matrix_type == "dense") {
-    dnames <- list()
-    dnames[[row_label]] <- rnames
-    dnames[["SampleID"]] <- cnames
-    matrix(unlist(b$data), nrow=b$shape[1], byrow=T, dimnames=dnames)
-  } else {
-    message("unsupported matrix type")
-    NULL
-  }
+  stop(
+    "Function removed.  Previous implementations may not have given the ",
+    "correct answer.  If you have used this function previously, please check ",
+    "your work by converting the BIOM file to classic tab-separated values ",
+    "format and importing with the function read_qiime_otu_table().")
 }
 
 #' Extract taxonomy info from a biom object.

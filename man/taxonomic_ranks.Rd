@@ -12,4 +12,3 @@ taxonomic_ranks
 Standard taxonomic ranks.
 }
 \keyword{datasets}
-

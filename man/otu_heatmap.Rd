@@ -56,4 +56,3 @@ head(heatmap_data)
 \seealso{
 \code{\link{saturated_rainbow}}
 }
-

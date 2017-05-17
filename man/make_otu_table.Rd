@@ -17,4 +17,3 @@ A matrix of OTU counts by sample.
 \description{
 Create an OTU table.
 }
-

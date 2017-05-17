@@ -27,4 +27,3 @@ A list with four attributes: sample_ids, otu_ids, counts, and
 \description{
 Parse a QIIME OTU table file in "calssic" format.
 }
-
