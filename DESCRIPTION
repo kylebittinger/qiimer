@@ -12,6 +12,7 @@ Imports:
     grDevices,
     pheatmap,
     stats,
+    usedist,
     utils
 Suggests:
     testthat,
